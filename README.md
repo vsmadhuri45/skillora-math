@@ -102,3 +102,54 @@ When you're ready to add course pages, you can either:
 - **Keep the calculator as a subdirectory** (`skillora.life/calculator`) and build a landing page at the root
 
 Vercel handles all of this without changing your setup.
+
+---
+
+## Setting up the Registration Database (Supabase)
+
+### Step 1 — Create a free Supabase project
+1. Go to https://supabase.com → Sign up free
+2. Click **New Project** → name it `skillora`
+3. Set a database password → click **Create Project**
+4. Wait ~1 minute for it to spin up
+
+### Step 2 — Create the registrations table
+1. In Supabase → click **SQL Editor** (left sidebar)
+2. Paste and run this SQL:
+
+```sql
+create table registrations (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  email text not null,
+  phone text not null,
+  class_level text not null,
+  registered_at timestamptz default now()
+);
+
+-- Allow anyone to insert (for public registration form)
+alter table registrations enable row level security;
+create policy "Anyone can register" on registrations
+  for insert with check (true);
+
+-- Only you can view registrations (via Supabase dashboard)
+create policy "Service role can view" on registrations
+  for select using (false);
+```
+
+### Step 3 — Get your API keys
+1. In Supabase → **Project Settings** → **API**
+2. Copy **Project URL** and **anon public** key
+
+### Step 4 — Add keys to the app
+Open `src/App.jsx` and replace at the top:
+```js
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL';    // ← paste Project URL
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY'; // ← paste anon key
+```
+
+### Step 5 — View your registrations
+Go to **Supabase → Table Editor → registrations**
+You'll see every person who signed up, with their name, email, phone, and class.
+You can also export as CSV anytime!
+

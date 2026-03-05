@@ -1,10 +1,111 @@
-import { useState, useMemo, useCallback } from "react";
+import { createClient } from '@supabase/supabase-js';
+import { useMemo, useState } from "react";
 
 // ─── Google Fonts ───────────────────────────────────────────────────────────
 const fontLink = document.createElement("link");
 fontLink.rel = "stylesheet";
 fontLink.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap";
 document.head.appendChild(fontLink);
+
+// ─── SUPABASE CONFIG ─────────────────────────────────────────────────────────
+// 🔧 Replace these two values with your own from supabase.com
+// (Project Settings → API → Project URL & anon public key)
+const SUPABASE_URL  = 'https://arxdaujysbcujgqdadyw.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_oaAwE6Gt88s21Kvp9Tp7_Q_RmWaUvc0';
+const supabase = (SUPABASE_URL !== 'YOUR_SUPABASE_URL')
+  ? createClient(SUPABASE_URL, SUPABASE_ANON)
+  : null;
+
+// ─── REGISTRATION POPUP ──────────────────────────────────────────────────────
+function RegistrationPopup({ onComplete }) {
+  const [form, setForm] = useState({ name:'', email:'', phone:'', class_level:'XI' });
+  const [step, setStep] = useState('form'); // 'form' | 'submitting' | 'success'
+  const [error, setError] = useState('');
+
+  const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
+
+  const validate = () => {
+    if (!form.name.trim()) return 'Please enter your name.';
+    if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return 'Please enter a valid email.';
+    if (!form.phone.match(/^[6-9]\d{9}$/)) return 'Please enter a valid 10-digit mobile number.';
+    return null;
+  };
+
+  const handleSubmit = async () => {
+    const err = validate();
+    if (err) return setError(err);
+    setError('');
+    setStep('submitting');
+    try {
+      if (supabase) {
+        const { error: dbErr } = await supabase
+          .from('registrations')
+          .insert([{ name: form.name.trim(), email: form.email.trim().toLowerCase(), phone: form.phone.trim(), class_level: form.class_level, registered_at: new Date().toISOString() }]);
+        if (dbErr) throw dbErr;
+      }
+      localStorage.setItem('skillora_registered', JSON.stringify({ name: form.name.trim(), email: form.email.trim() }));
+      setStep('success');
+      setTimeout(() => onComplete(form.name.trim()), 1800);
+    } catch (e) {
+      console.error(e);
+      setStep('form');
+      setError('Something went wrong. Please try again.');
+    }
+  };
+
+  const inputStyle = { width:'100%', background:'#0f1729', border:'1px solid #2d3f6b', borderRadius:'10px', padding:'12px 16px', color:'#e2e8f0', fontFamily:'DM Sans', fontSize:'0.95rem', outline:'none', boxSizing:'border-box' };
+
+  return (
+    <div style={{position:'fixed',inset:0,background:'rgba(6,10,24,0.92)',backdropFilter:'blur(6px)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'}}>
+      <div style={{background:'#0d1526',border:'1px solid #1e2d4d',borderRadius:'20px',padding:'40px',maxWidth:'440px',width:'100%',boxShadow:'0 25px 80px rgba(0,0,0,0.6)',position:'relative'}}>
+        <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'200px',height:'2px',background:'linear-gradient(90deg,transparent,#f59e0b,transparent)',borderRadius:'2px'}}/>
+        {step === 'success' ? (
+          <div style={{textAlign:'center',padding:'20px 0'}}>
+            <div style={{fontSize:'3.5rem',marginBottom:'16px'}}>🎉</div>
+            <div style={{fontFamily:'Playfair Display',fontSize:'1.6rem',fontWeight:700,color:'#f8fafc',marginBottom:'8px'}}>Welcome aboard!</div>
+            <div style={{color:'#64748b',fontFamily:'DM Sans',fontSize:'0.9rem'}}>Taking you to your notes…</div>
+          </div>
+        ) : (
+          <>
+            <div style={{marginBottom:'28px'}}>
+              <div style={{fontFamily:'Playfair Display',fontSize:'1.7rem',fontWeight:700,color:'#f8fafc',lineHeight:1.2}}>Welcome to<br/><span style={{color:'#f59e0b'}}>Skillora</span> 👋</div>
+              <div style={{color:'#64748b',fontFamily:'DM Sans',fontSize:'0.88rem',marginTop:'8px',lineHeight:'1.6'}}>Create your free account to access JEE Class XI &amp; XII notes.</div>
+            </div>
+            <div style={{display:'flex',flexDirection:'column',gap:'14px'}}>
+              <div>
+                <div style={{fontSize:'0.72rem',color:'#64748b',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Full Name</div>
+                <input value={form.name} onChange={e=>set('name',e.target.value)} placeholder="e.g. Madhuri S" style={inputStyle}/>
+              </div>
+              <div>
+                <div style={{fontSize:'0.72rem',color:'#64748b',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Email Address</div>
+                <input value={form.email} onChange={e=>set('email',e.target.value)} placeholder="e.g. madhuri@email.com" type="email" style={inputStyle}/>
+              </div>
+              <div>
+                <div style={{fontSize:'0.72rem',color:'#64748b',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Phone Number</div>
+                <input value={form.phone} onChange={e=>set('phone',e.target.value.replace(/\D/g,'').slice(0,10))} placeholder="10-digit mobile number" type="tel" style={inputStyle}/>
+              </div>
+              <div>
+                <div style={{fontSize:'0.72rem',color:'#64748b',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>I am in Class</div>
+                <div style={{display:'flex',gap:'10px'}}>
+                  {['XI','XII'].map(c=>(
+                    <button key={c} onClick={()=>set('class_level',c)} style={{flex:1,padding:'11px',borderRadius:'10px',border:`1px solid ${form.class_level===c?'#f59e0b':'#2d3f6b'}`,cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.95rem',fontWeight:600,background:form.class_level===c?'#f59e0b22':'transparent',color:form.class_level===c?'#f59e0b':'#64748b',transition:'all 0.15s'}}>
+                      Class {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {error && <div style={{background:'#450a0a',border:'1px solid #7f1d1d',borderRadius:'8px',padding:'10px 14px',color:'#fca5a5',fontSize:'0.82rem',fontFamily:'DM Sans'}}>{error}</div>}
+              <button onClick={handleSubmit} disabled={step==='submitting'} style={{marginTop:'6px',width:'100%',padding:'14px',background:step==='submitting'?'#92400e':'#f59e0b',color:'#0f1729',border:'none',borderRadius:'10px',cursor:step==='submitting'?'wait':'pointer',fontFamily:'DM Sans',fontSize:'1rem',fontWeight:700,transition:'all 0.15s'}}>
+                {step==='submitting' ? 'Registering…' : 'Get Free Access →'}
+              </button>
+              <div style={{textAlign:'center',fontSize:'0.75rem',color:'#334155',lineHeight:'1.6'}}>No spam, ever. Your data is safe. 🔒</div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 
 // ─── MATH UTILITIES ─────────────────────────────────────────────────────────
 const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
@@ -1243,11 +1344,473 @@ const categories = [
 
 const allTopics = categories.flatMap(c=>c.topics.map(t=>({...t,category:c.name})));
 
+// ─── NOTES DATA ─────────────────────────────────────────────────────────────
+// 🔧 HOW TO ADD YOUR PDFs:
+// 1. Open the PDF in Google Drive
+// 2. Click Share → change to "Anyone with the link"
+// 3. Copy the link — it looks like: https://drive.google.com/file/d/FILEID/view
+// 4. Paste just the FILEID part below (the long string between /d/ and /view)
+
+const notesData = [
+  {
+    subject: 'Mathematics',
+    icon: '📐',
+    color: '#f59e0b',
+    classes: [
+      {
+        label: 'Class XI',
+        chapters: [
+          { name: 'Binomial Theorem', fileId: '1FUMQ94OH29HMWwBneNXpoDndyb2XVpTw' },
+          { name: 'Complex Numbers', fileId: '1GmFtPHrZv8fWRc7RJEhGlOST9ocuq-Mf' },
+          { name: 'Ellipse', fileId: '1FtMsYNxMQwj8hmON8P1a3F6vLYf3iB6J' },
+          { name: 'Hyperbola', fileId: '1FxEAK9Sg4YbPW6CdKlSwI6BSlopiEcyu' },
+          { name: 'Limits', fileId: '1GElWoJrfWiyCa_wO-wE17iyu2GeXmyuI' },
+          { name: 'Mathematical Induction', fileId: '1G5sNgiRmugmQybXQ3uNHcEmp4J918cu3' },
+          { name: 'Parabola', fileId: '1FkazuuTXZGy0yYBhk4Rlzcdz0-taBjoQ' },
+          { name: 'Permutations & Combinations', fileId: '1FbsacvYGFZBcl2m_LAqxbpsZfDOMUd0o' },
+          { name: 'Probability', fileId: '1GeirPiUp3y21il5AzLUTE7z3I3MD4ccp' },
+          { name: 'Relations & Functions', fileId: '1GBq_1DMlPF60f6Y3KX51KvUKVpDxllEn' },
+          { name: 'Sequence & Series', fileId: '1G7ZMAQSu_HKF7Kiq-E48i-3xh0TZ5ljT' },
+          { name: 'Sets', fileId: '1G9jqk2bt7ngNBtWvFVIol-uQ8M0subOT' },
+          { name: 'Solution of Triangles', fileId: '1FO8zFLobOUNyshyFqKwON-z5uAGxSSs9' },
+          { name: 'Statistics', fileId: '1GIPMEsj3KkkMcgtnsCx2FeFqJSO1x4n6' },
+          { name: 'Straight Line', fileId: '1FULq4Xx3RCmSFjuJA4kqrHt-ybvMGovT' },
+          { name: 'Trigonometry', fileId: '1FNodhR7gYhz1JymKFHDyeRhJ-3PIzUPV' }
+        ]
+      },
+      {
+        label: 'Class XII',
+        chapters: [
+          { name: '3D Geometry', fileId: '1YJScKFMcfdArnKLfx6-B5pdgmRIvx0ZP' },
+          { name: 'Application Of Derivative', fileId: '1XkAQm1bKynO9mXgMNmpbL_KniZf0Rvtb' },
+          { name: 'Area Under Curve', fileId: '1Y-J-QcS_Wlwyt9W4czGIeoENBVrU7EvR' },
+          { name: 'Continuity', fileId: '1Xf6kdiCNGZjI_zsVXiMyjGsXwMVXGGVN' },
+          { name: 'Differential Equation', fileId: '1Y3A4365zkvse0a8Z1yQ0bUSoUKsgs1_O' },
+          { name: 'Definite Integration', fileId: '1XszHh3jUnUns_dqjJW6GR8-8pnfeyuA1' },
+          { name: 'Differentiability', fileId: '1XgrWopyGg6VvrVCWV7GXbkj_2nYhxr2Q' },
+          { name: 'Indefinite Integration', fileId: '1XrC8Y92I6kcCXGlYu3zhkIlif9I7z11U' },
+          { name: 'Inverse Trigonometric Functions', fileId: '1Wqj3SEF8vXf4nW8W1e3cP6EyxgFQGkgQ' },
+          { name: 'Limits', fileId: '1X4WheGGFVZusih9a8Yc31SWz0NwfqqSb' },
+          { name: 'Matrices and Determinants', fileId: '1WqZew0pGiIKAexfK7zGTkcBDXmEOcm37' },
+          { name: 'Probability', fileId: '1YWiG9AqBHP78p0aHk8CBUt4RQd8Mab_h' },
+          { name: 'Vectors', fileId: '1Y45UKqr5Fa70fmlp6XUx2_YD404e_2oE' }
+        ]
+      }
+    ]
+  },
+  {
+    subject: 'Physics',
+    icon: '⚡',
+    color: '#38bdf8',
+    classes: [
+      {
+        label: 'Class XI',
+        chapters: [
+          { name: 'Circular Motion', fileId: '1rgkhe9VLvTE9afrUUDGNKHPvfMZGtp38' },
+          { name: 'Centre of Mass - 1', fileId: '1w5o21k4Ke1npFzpTj2JWBIwW3KFvlw4j' },
+          { name: 'Centre of Mass - 2', fileId: '1CseKMB7lWiFleXNIR2M2Z9qZfjvNZi5b' },
+          { name: 'Fluid Mechanics', fileId: '1eOsD2--_6ZEFftjP7n1ydefXImDudLHL' },
+          { name: 'Friction', fileId: '1g-ynLN8uo6agu24yiIEzFJlFyVWotP8K' },
+          { name: 'KTG & Thermodynamics', fileId: '1Q15QZECU_mAxj2TJAKhA0pm4PJ-UqBMD' },
+          { name: 'Mathematical Tools', fileId: '1CdAsDXQpgD29lZAOOhLtJrOUFEV5XYgl' },
+          { name: 'Newtons Laws of Motion', fileId: '1tPHvhwELcb4BfPs_9gMa8GtQgA-AisXw' },
+          { name: 'Projectile Motion', fileId: '1nALfeb0vYGoJoSYPfTpEhPTsGOZ0dlro' },
+          { name: 'Properties of Matter', fileId: '1kesK-Fwy6Z2UYGDcHb5TzPAuB_JpSI4l' },
+          { name: 'Rigid Body Dynamics', fileId: '1CGJHA703jguqp5xyZQzWtFF13x6B-Vfl' },
+          { name: 'Rectilinear Motion', fileId: '1JZe3M5Ww0yPxYZ-K6K7UApopIxF-PU8m' },
+          { name: 'Relative Motion', fileId: '14veIQCGK5NXJGqXDYVBN3Op897g69arY' },
+          { name: 'Simple Harmonic Motion - 1', fileId: '1CQZGKeRYNpx0FNrllSJMifyej_sMgOyq' },
+          { name: 'Simple Harmonic Motion - 2', fileId: '1COlGGndK6raurAiAOb7K-GSSHz5dxDpN' },
+          { name: 'Sound Waves', fileId: '1xX_1G1Bl65hgcAk1NulydBEeQtNPrWTI' },
+          { name: 'String Waves', fileId: '1hB2dFm0KFqHU4Nkz_oCs-rZFhkZ_y02K' },
+          { name: 'Surface Tension', fileId: '1hIpeCCU56JDoX5bFwUVWPKwFM6LRqZHl' },
+          { name: 'Thermal Physics and Calorimetry', fileId: '1DzoDxN5zczhe4KX3UAIiuS98o0ooFnA_' },
+          { name: 'Thermodynamics', fileId: '1VFNGA81BkZRrixQvKdFBTWNsUtIk7xPk' },
+          { name: 'Viscosity', fileId: '1aoJd16VBydMXFppjqrgcOLoA84uHzKI2' },
+          { name: 'Work Power and Energy', fileId: '1zPHkHDRg9h2ue6MTAXm9ltd0YfNg6Vlj' }
+        ]
+      },
+      {
+        label: 'Class XII',
+        chapters: [
+          { name: 'Alternating Current', fileId: '1g0ab8Upv6IgNLjS-Eesx4icL32kYSSt_' },
+          { name: 'Capacitance', fileId: '1eQz5-yqqCjbMc2m70JS89kQUue4nPWCD' },
+          { name: 'Current Electricity', fileId: '1eNOiTAjamxQD3lAzTufE0ac6J9wKwfZk' },
+          { name: 'Electromagnetic Induction', fileId: '1gEK1w6puiidLHFM06luv0NIGtmaRh7GY' },
+          { name: 'Electromagnetic Wave', fileId: '1g1LaIyC_dcFS5GSZdrnAxPnnJxMcoMMG' },
+          { name: 'Geometrical Optics', fileId: '1e_TXMGgKycfer_PYcTfghaEnUDAze8eK' },
+          { name: 'Gravitation', fileId: '1eLMe_b2UC5FV-wZc3Il9Z6VHT0ja2Ug7' },
+          { name: 'Heat Transfer', fileId: '1eQsW5yIdOhYaKB47Gkm3vaQra0h7sYv4' },
+          { name: 'Magnetic Effects of Current', fileId: '1g9xws1Oqu9__pYfprbKRv60qUMtijvay' },
+          { name: 'Magnetism', fileId: '1gCpmGr_pBH9D9hnBj5VJESDsLIlqEKX6' },
+          { name: 'Modern Physics', fileId: '1fjb6FQ8NI9wtI9m4BYpb7CI1iNZtCNSk' },
+          { name: 'Nuclear Physics', fileId: '1fmGqSh2OL6VSXqkmK7vHz3416P3vhymQ' },
+          { name: 'Semiconductors', fileId: '1ftw-ha-NXzfXdaTILq8pWMyBO0UjcRCe' },
+          { name: 'Wave Optics', fileId: '1g7KUCqXE0EEOiqYPJ33wMvtgjkNt-hjZ' }
+        ]
+      }
+    ]
+  },
+  {
+    subject: 'Chemistry',
+    icon: '🧪',
+    color: '#34d399',
+    classes: [
+      {
+        label: 'Class XI',
+        chapters: [
+          { name: 'Atomic Structure', fileId: '1DguvxutFCTOrGZA58sq4zRvx2carUAmB' },
+          { name: 'Chemical Bonding', fileId: '1EanJrn4j0OGNZ9_upBj7CnO4R5RNf3Gk' },
+          { name: 'Chemical Equilibrium', fileId: '1H2Q64___9GXO0--raIBDnoeE1kAwR3LX' },
+          { name: 'Chemistry in Everyday Life', fileId: '1OA7qk7RBuj2_1eoECL90qwhJZH6wDTz9' },
+          { name: 'Gaseous State', fileId: '1Gn8we9acGgn4IJ93rbRH7toiM0ElYmR5' },
+          { name: 'GOC', fileId: '1Gq8WZL3ww9pV4dBEjyZ3bbO-law9RBcg' },
+          { name: 'Hydrocarbons', fileId: '1DjeUPNX3ZmkooHeas-Tn1AQlPnVb6bn1' },
+          { name: 'Hydrogen', fileId: '1GrRB2ojUhQ_PEwl_eMx0by74NwYRLJqW' },
+          { name: 'Ionic Equilibrium', fileId: '1H3ISfgiPWrU8mP_qgGIiLvCGsOTsvpVA' },
+          { name: 'p-block Elements', fileId: '1H9zKqO_b5jhGkezPAQYHSBEbWhQoe2vU' },
+          { name: 'Periodic Table', fileId: '1wSEyyUv6Rp0NbGW-uzZnNDGRy3YLCcal' },
+          { name: 'Redox Reactions', fileId: '1GnDxYZbqcRI91NR4BeDzkdYHpwCahqmY' },
+          { name: 's-block Elements', fileId: '1H7s388cX5L5O7ddTmdOH1vf-o0HqsmHI' },
+          { name: 'Thermodynamics', fileId: '1H-XY874BTBaapfQMf1Mpo0HQB8f9YbNg' }
+        ]
+      },
+      {
+        label: 'Class XII',
+        chapters: [
+          { name: 'Alcohol, Phenol & Ether', fileId: '1W92n3ED266KwmcXRkaziZ2vJMu8-7nbJ' },
+          { name: 'Aldehyde & Ketone', fileId: '1W9JmUfZxuKr3FlmNj3B2PKRgB0OrbU5y' },
+          { name: 'Amines', fileId: '1WGRdXps6PIvKcRbbcnHqN4HRIFcvxB2h' },
+          { name: 'Carboxylic Acid & its Derivatives', fileId: '1WBmS0PaH60Rw7PVqMFSaZ55UNbgb41Wp' },
+          { name: 'Chemical Kinetics', fileId: '1W7i9bIAfTO3Nb-n_tL1ULrmSpZruyzfU' },
+          { name: 'Coodination Compounds', fileId: '1VhjJ8bEquZAXbjb_--gDYBv2puNeInOI' },
+          { name: 'Electrochemistry', fileId: '1V_rowiG5wdWS3T85Bx-D3hWNzhrj-aTy' },
+          { name: 'Haloalkenes & Haloarenes', fileId: '1VxwmYb5fQ_XsYLTVZhhEkfd9gIJ3UdJW' },
+          { name: 'Metallurgy', fileId: '1VG4X0BSD0RyBchQGxSCebO64hybMH0sS' },
+          { name: 'P-Block', fileId: '1W6JHPTWqI66e8POHL3GjklPElUQhs4yS' },
+          { name: 'Practical Organic Chemistry', fileId: '1WPjYPtxECPKhTEhtg8CAxE92YiN6LzLk' },
+          { name: 'Polymers', fileId: '1WjVpRo3XqKcDbJVo5baNjqWFwkhFGAu-' },
+          { name: 'Qualitative Analysis', fileId: '1YDmVUJ-FafdAHecQxRQhMn3MUTm6ATx4' },
+          { name: 'Solid State', fileId: '1VMHGGoI_EMBuK-fpN9AHYA5DpYA08viH' },
+          { name: 'Solutions - 1', fileId: '1VK4Hjz4XJeppUnWYOrkN1JWqTkxUQgvx' },
+          { name: 'Solutions - 2', fileId: '1VOOKhIxdUQqgZkG0M9f5C32WuMrMzzK0' },
+          { name: 'Transition Elements', fileId: '1VFh0yOz7vvgqxr3NPFyuVHIVAAGfi8IK' }
+        ]
+      }
+    ]
+  },
+];
+
+// ─── NOTES COMPONENT ─────────────────────────────────────────────────────────
+function NotesSection() {
+  const [activeSubject, setActiveSubject] = useState(0);
+  const [activeClass, setActiveClass] = useState(0);
+  const [activeChapter, setActiveChapter] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const subject = notesData[activeSubject];
+  const classData = subject.classes[activeClass];
+
+  const switchSubject = (i) => {
+    setActiveSubject(i);
+    setActiveClass(0);
+    setActiveChapter(null);
+  };
+
+  const switchClass = (i) => {
+    setActiveClass(i);
+    setActiveChapter(null);
+  };
+
+  return (
+    <div style={{display:'flex',flex:1,height:'100%',overflow:'hidden',position:'relative'}}>
+
+      {/* Notes Sidebar */}
+      <div style={{
+        width: sidebarOpen ? '260px' : '0px',
+        minWidth: sidebarOpen ? '260px' : '0px',
+        background:'#0a0f1e',
+        borderRight: sidebarOpen ? '1px solid #1e2d4d' : 'none',
+        display:'flex',
+        flexDirection:'column',
+        overflow:'hidden',
+        transition:'all 0.25s ease',
+      }}>
+        {/* Subject Tabs */}
+        <div style={{padding:'16px',borderBottom:'1px solid #1e2d4d',minWidth:'260px'}}>
+          <div style={{fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'10px',fontWeight:600}}>Subject</div>
+          <div style={{display:'flex',flexDirection:'column',gap:'6px'}}>
+            {notesData.map((s,i)=>(
+              <button key={s.subject} onClick={()=>switchSubject(i)} style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 14px',borderRadius:'8px',border:'none',cursor:'pointer',textAlign:'left',background:activeSubject===i?'#1e2d4d':'transparent',borderLeft:activeSubject===i?`3px solid ${s.color}`:'3px solid transparent',transition:'all 0.15s'}}>
+                <span style={{fontSize:'1.1rem'}}>{s.icon}</span>
+                <span style={{fontFamily:'DM Sans',fontSize:'0.9rem',fontWeight:activeSubject===i?600:400,color:activeSubject===i?'#f8fafc':'#94a3b8'}}>{s.subject}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Class Toggle */}
+        <div style={{padding:'12px 16px',borderBottom:'1px solid #1e2d4d',minWidth:'260px'}}>
+          <div style={{fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'8px',fontWeight:600}}>Class</div>
+          <div style={{display:'flex',gap:'8px'}}>
+            {subject.classes.map((c,i)=>(
+              <button key={c.label} onClick={()=>switchClass(i)} style={{flex:1,padding:'8px',borderRadius:'8px',border:`1px solid ${activeClass===i?subject.color:'#2d3f6b'}`,cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.82rem',fontWeight:500,background:activeClass===i?subject.color+'22':'transparent',color:activeClass===i?subject.color:'#64748b',transition:'all 0.15s'}}>{c.label}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* Chapter List */}
+        <div style={{flex:1,overflowY:'auto',padding:'8px 0',minWidth:'260px'}}>
+          <div style={{padding:'8px 16px 4px',fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',fontWeight:600}}>Chapters</div>
+          {classData.chapters.map((ch,i)=>(
+            <button key={ch.name} onClick={()=>{ setActiveChapter(ch); setSidebarOpen(false); }} style={{width:'100%',padding:'9px 16px 9px 20px',background:activeChapter?.name===ch.name?'#1e2d4d':'none',border:'none',cursor:'pointer',textAlign:'left',borderLeft:activeChapter?.name===ch.name?`3px solid ${subject.color}`:'3px solid transparent',transition:'all 0.1s'}}>
+              <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                <span style={{fontSize:'0.7rem',color:subject.color,fontFamily:'JetBrains Mono',minWidth:'18px'}}>{i+1}.</span>
+                <span style={{fontSize:'0.83rem',color:activeChapter?.name===ch.name?'#f8fafc':'#94a3b8',fontWeight:activeChapter?.name===ch.name?500:400,fontFamily:'DM Sans'}}>{ch.name}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* PDF Viewer Area */}
+      <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden',background:'#060c18',position:'relative'}}>
+
+        {/* Sidebar Toggle Button */}
+        <button
+          onClick={()=>setSidebarOpen(p=>!p)}
+          title={sidebarOpen ? 'Collapse sidebar' : 'Open sidebar'}
+          style={{
+            position:'absolute',top:'12px',left:'12px',zIndex:20,
+            background:'#1e2d4d',border:'1px solid #2d3f6b',borderRadius:'8px',
+            color:'#94a3b8',width:'34px',height:'34px',cursor:'pointer',
+            display:'flex',alignItems:'center',justifyContent:'center',
+            fontSize:'1rem',transition:'all 0.15s',
+          }}
+        >
+          {sidebarOpen ? '◀' : '☰'}
+        </button>
+
+        {activeChapter ? (
+          <>
+            {/* Chapter Header */}
+            <div style={{padding:'16px 32px',borderBottom:'1px solid #1e2d4d',background:'#0a0f1e',display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <div style={{textAlign:'center'}}>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',marginBottom:'4px'}}>
+                  <span style={{background:subject.color+'22',color:subject.color,borderRadius:'6px',padding:'3px 8px',fontSize:'0.7rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.08em'}}>{subject.subject}</span>
+                  <span style={{color:'#334155',fontSize:'0.8rem'}}>{classData.label}</span>
+                </div>
+                <div style={{fontFamily:'Playfair Display',fontSize:'1.5rem',fontWeight:700,color:'#f8fafc'}}>{activeChapter.name}</div>
+              </div>
+            </div>
+
+            {/* PDF Embed */}
+            <div style={{flex:1,position:'relative',background:'#060c18'}}>
+              <iframe
+                src={`https://drive.google.com/file/d/${activeChapter.fileId}/preview`}
+                style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',border:'none',display:'block'}}
+                allow="autoplay"
+                title={activeChapter.name}
+              />
+
+              {/* ── Copyright shield overlays ───────────────────────────────
+                  These transparent divs sit on top of the iframe and block
+                  the Google Drive toolbar buttons (open-in-Drive, download).
+                  Top bar: full-width strip covering the GDrive toolbar.
+                  Bottom bar: covers the download / open buttons at the bottom.
+              ────────────────────────────────────────────────────────────── */}
+
+              {/* Top toolbar blocker — covers the "open in Drive" icon */}
+              <div style={{
+                position:'absolute',top:0,left:0,right:0,
+                height:'48px',
+                background:'#060c18',
+                zIndex:10,
+                pointerEvents:'all',
+              }}/>
+
+              {/* Bottom bar blocker — covers any bottom GDrive controls */}
+              <div style={{
+                position:'absolute',bottom:0,left:0,right:0,
+                height:'52px',
+                background:'#060c18',
+                zIndex:10,
+                pointerEvents:'all',
+              }}/>
+
+              {/* Watermark */}
+              <div style={{
+                position:'absolute',bottom:'60px',right:'20px',
+                zIndex:11,
+                fontFamily:'DM Sans',fontSize:'0.7rem',
+                color:'#ffffff18',
+                userSelect:'none',
+                pointerEvents:'none',
+                letterSpacing:'0.05em',
+              }}>
+                © Skillora — All rights reserved
+              </div>
+            </div>
+          </>
+        ) : (
+          <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'20px',padding:'40px'}}>
+            <div style={{fontSize:'4rem'}}>{subject.icon}</div>
+            <div style={{fontFamily:'Playfair Display',fontSize:'2rem',fontWeight:700,color:'#f8fafc',textAlign:'center'}}>{subject.subject} Notes</div>
+            <div style={{fontFamily:'DM Sans',fontSize:'0.95rem',color:'#475569',textAlign:'center',maxWidth:'400px',lineHeight:'1.8'}}>
+              Select a chapter from the sidebar to view your handwritten notes. All notes are for <strong style={{color:'#94a3b8'}}>JEE {classData.label}</strong>.
+            </div>
+            <div style={{display:'flex',gap:'12px',marginTop:'8px',flexWrap:'wrap',justifyContent:'center'}}>
+              {classData.chapters.slice(0,4).map(ch=>(
+                <button key={ch.name} onClick={()=>setActiveChapter(ch)} style={{padding:'10px 18px',background:'#1e2d4d',border:`1px solid ${subject.color}33`,borderRadius:'8px',color:'#94a3b8',fontFamily:'DM Sans',fontSize:'0.82rem',cursor:'pointer'}}>
+                  {ch.name}
+                </button>
+              ))}
+              <button onClick={()=>setActiveChapter(classData.chapters[0])} style={{padding:'10px 18px',background:subject.color,border:'none',borderRadius:'8px',color:'#0f1729',fontFamily:'DM Sans',fontSize:'0.82rem',fontWeight:600,cursor:'pointer'}}>
+                Start with Chapter 1 →
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+// function NotesSection() {
+//   const [activeSubject, setActiveSubject] = useState(0);
+//   const [activeClass, setActiveClass] = useState(0);
+//   const [activeChapter, setActiveChapter] = useState(null);
+
+//   const subject = notesData[activeSubject];
+//   const classData = subject.classes[activeClass];
+
+//   const switchSubject = (i) => {
+//     setActiveSubject(i);
+//     setActiveClass(0);
+//     setActiveChapter(null);
+//   };
+
+//   const switchClass = (i) => {
+//     setActiveClass(i);
+//     setActiveChapter(null);
+//   };
+
+//   return (
+//     <div style={{display:'flex',height:'100%',overflow:'hidden'}}>
+
+//       {/* Notes Sidebar */}
+//       <div style={{width:'260px',minWidth:'260px',background:'#0a0f1e',borderRight:'1px solid #1e2d4d',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+
+//         {/* Subject Tabs */}
+//         <div style={{padding:'16px',borderBottom:'1px solid #1e2d4d'}}>
+//           <div style={{fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'10px',fontWeight:600}}>Subject</div>
+//           <div style={{display:'flex',flexDirection:'column',gap:'6px'}}>
+//             {notesData.map((s,i)=>(
+//               <button key={s.subject} onClick={()=>switchSubject(i)} style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 14px',borderRadius:'8px',border:'none',cursor:'pointer',textAlign:'left',background:activeSubject===i?'#1e2d4d':'transparent',borderLeft:activeSubject===i?`3px solid ${s.color}`:'3px solid transparent',transition:'all 0.15s'}}>
+//                 <span style={{fontSize:'1.1rem'}}>{s.icon}</span>
+//                 <span style={{fontFamily:'DM Sans',fontSize:'0.9rem',fontWeight:activeSubject===i?600:400,color:activeSubject===i?'#f8fafc':'#94a3b8'}}>{s.subject}</span>
+//               </button>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Class Toggle */}
+//         <div style={{padding:'12px 16px',borderBottom:'1px solid #1e2d4d'}}>
+//           <div style={{fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'8px',fontWeight:600}}>Class</div>
+//           <div style={{display:'flex',gap:'8px'}}>
+//             {subject.classes.map((c,i)=>(
+//               <button key={c.label} onClick={()=>switchClass(i)} style={{flex:1,padding:'8px',borderRadius:'8px',border:`1px solid ${activeClass===i?subject.color:'#2d3f6b'}`,cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.82rem',fontWeight:500,background:activeClass===i?subject.color+'22':'transparent',color:activeClass===i?subject.color:'#64748b',transition:'all 0.15s'}}>{c.label}</button>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Chapter List */}
+//         <div style={{flex:1,overflowY:'auto',padding:'8px 0'}}>
+//           <div style={{padding:'8px 16px 4px',fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',fontWeight:600}}>Chapters</div>
+//           {classData.chapters.map((ch,i)=>(
+//             <button key={ch.name} onClick={()=>setActiveChapter(ch)} style={{width:'100%',padding:'9px 16px 9px 20px',background:activeChapter?.name===ch.name?'#1e2d4d':'none',border:'none',cursor:'pointer',textAlign:'left',borderLeft:activeChapter?.name===ch.name?`3px solid ${subject.color}`:'3px solid transparent',transition:'all 0.1s'}}>
+//               <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+//                 <span style={{fontSize:'0.7rem',color:subject.color,fontFamily:'JetBrains Mono',minWidth:'18px'}}>{i+1}.</span>
+//                 <span style={{fontSize:'0.83rem',color:activeChapter?.name===ch.name?'#f8fafc':'#94a3b8',fontWeight:activeChapter?.name===ch.name?500:400,fontFamily:'DM Sans'}}>{ch.name}</span>
+//               </div>
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* PDF Viewer Area */}
+//       <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden',background:'#060c18'}}>
+//         {activeChapter ? (
+//           <>
+//             {/* Chapter Header */}
+//             <div style={{padding:'16px 32px',borderBottom:'1px solid #1e2d4d',background:'#0a0f1e',display:'flex',alignItems:'center',justifyContent:'center'}}>
+//               <div style={{textAlign:'center'}}>
+//                 <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',marginBottom:'4px'}}>
+//                   <span style={{background:subject.color+'22',color:subject.color,borderRadius:'6px',padding:'3px 8px',fontSize:'0.7rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.08em'}}>{subject.subject}</span>
+//                   <span style={{color:'#334155',fontSize:'0.8rem'}}>{classData.label}</span>
+//                 </div>
+//                 <div style={{fontFamily:'Playfair Display',fontSize:'1.5rem',fontWeight:700,color:'#f8fafc'}}>{activeChapter.name}</div>
+//               </div>
+//             </div>
+
+//             {/* PDF Embed — centred, 75% width */}
+//             <div style={{flex:1,display:'flex',overflow:'hidden',background:'#060c18'}}>
+//                 {activeChapter.fileId === 'YOUR_FILE_ID_HERE' ? (
+//                   <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100%',gap:'16px',background:'#0a0f1e',borderRadius:'12px'}}>
+//                     <div style={{fontSize:'3rem'}}>📄</div>
+//                     <div style={{fontFamily:'Playfair Display',fontSize:'1.2rem',color:'#f8fafc'}}>PDF not linked yet</div>
+//                     <div style={{fontFamily:'DM Sans',fontSize:'0.85rem',color:'#475569',textAlign:'center',maxWidth:'360px',lineHeight:'1.7'}}>
+//                       Replace <code style={{background:'#1e2d4d',padding:'2px 6px',borderRadius:'4px',color:'#f59e0b'}}>YOUR_FILE_ID_HERE</code> in App.jsx for this chapter.
+//                     </div>
+//                   </div>
+//                 ) : (
+//                   <iframe
+//                     src={`https://drive.google.com/file/d/${activeChapter.fileId}/preview`}
+//                     style={{width:'100%',height:'100%',border:'none'}}
+//                     allow="autoplay"
+//                     title={activeChapter.name}
+//                   />
+//                 )}
+//             </div>
+//           </>
+//         ) : (
+//           // Landing state — no chapter selected
+//           <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'20px',padding:'40px'}}>
+//             <div style={{fontSize:'4rem'}}>{subject.icon}</div>
+//             <div style={{fontFamily:'Playfair Display',fontSize:'2rem',fontWeight:700,color:'#f8fafc',textAlign:'center'}}>{subject.subject} Notes</div>
+//             <div style={{fontFamily:'DM Sans',fontSize:'0.95rem',color:'#475569',textAlign:'center',maxWidth:'400px',lineHeight:'1.8'}}>
+//               Select a chapter from the sidebar to view your handwritten notes. All notes are for <strong style={{color:'#94a3b8'}}>JEE {classData.label}</strong>.
+//             </div>
+//             <div style={{display:'flex',gap:'12px',marginTop:'8px',flexWrap:'wrap',justifyContent:'center'}}>
+//               {classData.chapters.slice(0,4).map(ch=>(
+//                 <button key={ch.name} onClick={()=>setActiveChapter(ch)} style={{padding:'10px 18px',background:'#1e2d4d',border:`1px solid ${subject.color}33`,borderRadius:'8px',color:'#94a3b8',fontFamily:'DM Sans',fontSize:'0.82rem',cursor:'pointer'}}>
+//                   {ch.name}
+//                 </button>
+//               ))}
+//               <button onClick={()=>setActiveChapter(classData.chapters[0])} style={{padding:'10px 18px',background:subject.color,border:'none',borderRadius:'8px',color:'#0f1729',fontFamily:'DM Sans',fontSize:'0.82rem',fontWeight:600,cursor:'pointer'}}>
+//                 Start with Chapter 1 →
+//               </button>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
 // ─── MAIN APP ────────────────────────────────────────────────────────────────
 export default function App() {
+  const [mode, setMode] = useState('notes');
   const [selected,setSelected]=useState(allTopics[0]);
   const [search,setSearch]=useState('');
   const [openCats,setOpenCats]=useState(()=>new Set(categories.map(c=>c.name)));
+
+  // ── Registration gate ──
+  const getStored = () => { try { return JSON.parse(localStorage.getItem('skillora_registered')); } catch { return null; } };
+  const [registered, setRegistered] = useState(() => !!getStored());
+  const [userName, setUserName] = useState(() => getStored()?.name || '');
+  const handleRegistered = (name) => { setUserName(name); setRegistered(true); };
 
   const filteredCats = useMemo(()=>{
     if(!search.trim()) return categories;
@@ -1260,61 +1823,78 @@ export default function App() {
   const ActiveComp = selected.component;
 
   return (
-    <div style={{display:'flex',height:'100vh',background:'#0f1729',fontFamily:'DM Sans',color:'#e2e8f0',overflow:'hidden'}}>
-      {/* Sidebar */}
-      <div style={{width:'280px',minWidth:'280px',background:'#0a0f1e',borderRight:'1px solid #1e2d4d',display:'flex',flexDirection:'column',overflow:'hidden'}}>
-        {/* Logo */}
-        <div style={{padding:'20px 20px 16px',borderBottom:'1px solid #1e2d4d'}}>
-          <div style={{fontFamily:'Playfair Display',fontSize:'1.3rem',fontWeight:700,color:'#f59e0b',letterSpacing:'0.02em'}}>Skillora</div>
-          <div style={{fontSize:'0.72rem',color:'#475569',marginTop:'2px',fontFamily:'DM Sans',letterSpacing:'0.05em',textTransform:'uppercase'}}>Math Calculator · 58 Topics</div>
-        </div>
-        {/* Search */}
-        <div style={{padding:'12px 16px',borderBottom:'1px solid #1e2d4d'}}>
-          <div style={{position:'relative'}}>
-            <span style={{position:'absolute',left:'10px',top:'50%',transform:'translateY(-50%)',color:'#475569',fontSize:'0.85rem'}}>🔍</span>
-            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search topics..." style={{width:'100%',background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'8px',padding:'8px 10px 8px 30px',color:'#e2e8f0',fontFamily:'DM Sans',fontSize:'0.85rem',outline:'none',boxSizing:'border-box'}}/>
-          </div>
-        </div>
-        {/* Topics */}
-        <div style={{flex:1,overflowY:'auto',padding:'8px 0'}}>
-          {filteredCats.map(cat=>(
-            <div key={cat.name}>
-              <button onClick={()=>toggleCat(cat.name)} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 16px',background:'none',border:'none',cursor:'pointer',color:'#64748b',fontSize:'0.72rem',textTransform:'uppercase',letterSpacing:'0.1em',fontFamily:'DM Sans',fontWeight:600}}>
-                <span>{cat.icon} {cat.name}</span>
-                <span style={{fontSize:'0.7rem'}}>{openCats.has(cat.name)?'▾':'▸'}</span>
-              </button>
-              {openCats.has(cat.name)&&cat.topics.map(t=>(
-                <button key={t.id} onClick={()=>{setSelected(t);}} style={{width:'100%',display:'flex',alignItems:'center',gap:'10px',padding:'8px 16px 8px 28px',background:selected.id===t.id?'#1e2d4d':'none',border:'none',cursor:'pointer',textAlign:'left',transition:'background 0.1s',borderLeft:selected.id===t.id?'3px solid #f59e0b':'3px solid transparent'}}>
-                  <div>
-                    <div style={{fontSize:'0.83rem',color:selected.id===t.id?'#f8fafc':'#94a3b8',fontWeight:selected.id===t.id?500:400}}>{t.name}</div>
-                    <div style={{fontSize:'0.7rem',color:'#475569'}}>{t.desc}</div>
-                  </div>
-                </button>
-              ))}
-            </div>
+    <div style={{display:'flex',height:'100vh',background:'#0f1729',fontFamily:'DM Sans',color:'#e2e8f0',overflow:'hidden', flexDirection:'column'}}>
+
+      {/* ── Registration Popup ── */}
+      {!registered && <RegistrationPopup onComplete={handleRegistered} />}
+
+      {/* ── Top Navigation Bar ── */}
+      <div style={{height:'52px',minHeight:'52px',background:'#0a0f1e',borderBottom:'1px solid #1e2d4d',display:'flex',alignItems:'center',padding:'0 24px',gap:'0',justifyContent:'space-between'}}>
+        <div style={{fontFamily:'Playfair Display',fontSize:'1.2rem',fontWeight:700,color:'#f59e0b'}}>Skillora</div>
+        <div style={{display:'flex',gap:'4px',background:'#0f1729',borderRadius:'10px',padding:'4px'}}>
+          {[['calculator','🧮 Calculator'],['notes','📚 JEE Notes']].map(([m,label])=>(
+            <button key={m} onClick={()=>setMode(m)} style={{padding:'6px 20px',borderRadius:'7px',border:'none',cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.85rem',fontWeight:500,transition:'all 0.15s',background:mode===m?'#f59e0b':' transparent',color:mode===m?'#0f1729':'#64748b'}}>
+              {label}
+            </button>
           ))}
         </div>
-        <div style={{padding:'10px 16px',borderTop:'1px solid #1e2d4d',fontSize:'0.68rem',color:'#334155',textAlign:'center'}}>skillora.life</div>
+        <div style={{fontSize:'0.8rem',color:'#64748b',fontFamily:'DM Sans'}}>
+          {userName ? <span>👋 <span style={{color:'#f59e0b',fontWeight:500}}>{userName.split(' ')[0]}</span></span> : <span style={{color:'#334155'}}>skillora.life</span>}
+        </div>
       </div>
 
-      {/* Main Content */}
-      <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden'}}>
-        {/* Header */}
-        <div style={{padding:'20px 32px 16px',borderBottom:'1px solid #1e2d4d',background:'#0a0f1e'}}>
-          <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-            <span style={{background:'#f59e0b22',color:'#f59e0b',borderRadius:'6px',padding:'3px 8px',fontSize:'0.7rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.08em'}}>{selected.category}</span>
-            <span style={{color:'#334155',fontSize:'0.8rem'}}>#{selected.id}</span>
-          </div>
-          <div style={{fontFamily:'Playfair Display',fontSize:'1.6rem',fontWeight:700,color:'#f8fafc',marginTop:'4px'}}>{selected.name}</div>
-          <div style={{color:'#64748b',fontSize:'0.85rem',marginTop:'2px'}}>{selected.desc}</div>
-        </div>
+      {/* ── Body ── */}
+      <div style={{flex:1,display:'flex',overflow:'hidden'}}>
 
-        {/* Calculator Area */}
-        <div style={{flex:1,overflowY:'auto',padding:'28px 32px'}}>
-          <div style={{maxWidth:'640px'}}>
-            <ActiveComp key={selected.id}/>
-          </div>
-        </div>
+        {mode === 'notes' ? <NotesSection /> : (
+          <>
+            {/* Sidebar */}
+            <div style={{width:'280px',minWidth:'280px',background:'#0a0f1e',borderRight:'1px solid #1e2d4d',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+              <div style={{padding:'12px 16px',borderBottom:'1px solid #1e2d4d'}}>
+                <div style={{position:'relative'}}>
+                  <span style={{position:'absolute',left:'10px',top:'50%',transform:'translateY(-50%)',color:'#475569',fontSize:'0.85rem'}}>🔍</span>
+                  <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search topics..." style={{width:'100%',background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'8px',padding:'8px 10px 8px 30px',color:'#e2e8f0',fontFamily:'DM Sans',fontSize:'0.85rem',outline:'none',boxSizing:'border-box'}}/>
+                </div>
+              </div>
+              <div style={{flex:1,overflowY:'auto',padding:'8px 0'}}>
+                {filteredCats.map(cat=>(
+                  <div key={cat.name}>
+                    <button onClick={()=>toggleCat(cat.name)} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 16px',background:'none',border:'none',cursor:'pointer',color:'#64748b',fontSize:'0.72rem',textTransform:'uppercase',letterSpacing:'0.1em',fontFamily:'DM Sans',fontWeight:600}}>
+                      <span>{cat.icon} {cat.name}</span>
+                      <span style={{fontSize:'0.7rem'}}>{openCats.has(cat.name)?'▾':'▸'}</span>
+                    </button>
+                    {openCats.has(cat.name)&&cat.topics.map(t=>(
+                      <button key={t.id} onClick={()=>setSelected(t)} style={{width:'100%',display:'flex',alignItems:'center',gap:'10px',padding:'8px 16px 8px 28px',background:selected.id===t.id?'#1e2d4d':'none',border:'none',cursor:'pointer',textAlign:'left',transition:'background 0.1s',borderLeft:selected.id===t.id?'3px solid #f59e0b':'3px solid transparent'}}>
+                        <div>
+                          <div style={{fontSize:'0.83rem',color:selected.id===t.id?'#f8fafc':'#94a3b8',fontWeight:selected.id===t.id?500:400}}>{t.name}</div>
+                          <div style={{fontSize:'0.7rem',color:'#475569'}}>{t.desc}</div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div style={{padding:'10px 16px',borderTop:'1px solid #1e2d4d',fontSize:'0.68rem',color:'#334155',textAlign:'center'}}>skillora.life</div>
+            </div>
+
+            {/* Main Content */}
+            <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden'}}>
+              <div style={{padding:'20px 32px 16px',borderBottom:'1px solid #1e2d4d',background:'#0a0f1e'}}>
+                <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+                  <span style={{background:'#f59e0b22',color:'#f59e0b',borderRadius:'6px',padding:'3px 8px',fontSize:'0.7rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.08em'}}>{selected.category}</span>
+                  <span style={{color:'#334155',fontSize:'0.8rem'}}>#{selected.id}</span>
+                </div>
+                <div style={{fontFamily:'Playfair Display',fontSize:'1.6rem',fontWeight:700,color:'#f8fafc',marginTop:'4px'}}>{selected.name}</div>
+                <div style={{color:'#64748b',fontSize:'0.85rem',marginTop:'2px'}}>{selected.desc}</div>
+              </div>
+              <div style={{flex:1,overflowY:'auto',padding:'28px 32px'}}>
+                <div style={{maxWidth:'640px'}}>
+                  <ActiveComp key={selected.id}/>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
