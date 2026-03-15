@@ -51,52 +51,52 @@ function RegistrationPopup({ onComplete }) {
     }
   };
 
-  const inputStyle = { width:'100%', background:'#0f1729', border:'1px solid #2d3f6b', borderRadius:'10px', padding:'12px 16px', color:'#e2e8f0', fontFamily:'DM Sans', fontSize:'0.95rem', outline:'none', boxSizing:'border-box' };
+  const inputStyle = { width:'100%', background:'#002535', border:'1px solid #226ce040', borderRadius:'10px', padding:'12px 16px', color:'#faffd8', fontFamily:'DM Sans', fontSize:'0.95rem', outline:'none', boxSizing:'border-box' };
 
   return (
     <div style={{position:'fixed',inset:0,background:'rgba(6,10,24,0.92)',backdropFilter:'blur(6px)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'}}>
-      <div style={{background:'#0d1526',border:'1px solid #1e2d4d',borderRadius:'20px',padding:'40px',maxWidth:'440px',width:'100%',boxShadow:'0 25px 80px rgba(0,0,0,0.6)',position:'relative'}}>
-        <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'200px',height:'2px',background:'linear-gradient(90deg,transparent,#f59e0b,transparent)',borderRadius:'2px'}}/>
+      <div style={{background:'#001a28',border:'1px solid #003050',borderRadius:'20px',padding:'40px',maxWidth:'440px',width:'100%',boxShadow:'0 25px 80px rgba(0,0,0,0.6)',position:'relative'}}>
+        <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',width:'200px',height:'2px',background:'linear-gradient(90deg,transparent,#ecffb0,transparent)',borderRadius:'2px'}}/>
         {step === 'success' ? (
           <div style={{textAlign:'center',padding:'20px 0'}}>
             <div style={{fontSize:'3.5rem',marginBottom:'16px'}}>🎉</div>
-            <div style={{fontFamily:'Playfair Display',fontSize:'1.6rem',fontWeight:700,color:'#f8fafc',marginBottom:'8px'}}>Welcome aboard!</div>
-            <div style={{color:'#64748b',fontFamily:'DM Sans',fontSize:'0.9rem'}}>Taking you to your notes…</div>
+            <div style={{fontFamily:'Playfair Display',fontSize:'1.6rem',fontWeight:700,color:'#faffd8',marginBottom:'8px'}}>Welcome aboard!</div>
+            <div style={{color:'rgba(250,255,216,0.45)',fontFamily:'DM Sans',fontSize:'0.9rem'}}>Taking you to your notes…</div>
           </div>
         ) : (
           <>
             <div style={{marginBottom:'28px'}}>
-              <div style={{fontFamily:'Playfair Display',fontSize:'1.7rem',fontWeight:700,color:'#f8fafc',lineHeight:1.2}}>Create your free<br/><span style={{color:'#f59e0b'}}>Skillora account</span> 👋</div>
-              <div style={{color:'#64748b',fontFamily:'DM Sans',fontSize:'0.88rem',marginTop:'8px',lineHeight:'1.6'}}>Just fill in a few details to get started.</div>
+              <div style={{fontFamily:'Playfair Display',fontSize:'1.7rem',fontWeight:700,color:'#faffd8',lineHeight:1.2}}>Create your free<br/><span style={{color:'#ecffb0'}}>Skillora account</span> 👋</div>
+              <div style={{color:'rgba(250,255,216,0.45)',fontFamily:'DM Sans',fontSize:'0.88rem',marginTop:'8px',lineHeight:'1.6'}}>Just fill in a few details to get started.</div>
             </div>
             <div style={{display:'flex',flexDirection:'column',gap:'14px'}}>
               <div>
-                <div style={{fontSize:'0.72rem',color:'#64748b',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Full Name</div>
+                <div style={{fontSize:'0.72rem',color:'rgba(250,255,216,0.45)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Full Name</div>
                 <input value={form.name} onChange={e=>set('name',e.target.value)} placeholder="e.g. Madhuri S" style={inputStyle}/>
               </div>
               <div>
-                <div style={{fontSize:'0.72rem',color:'#64748b',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Email Address</div>
+                <div style={{fontSize:'0.72rem',color:'rgba(250,255,216,0.45)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Email Address</div>
                 <input value={form.email} onChange={e=>set('email',e.target.value)} placeholder="e.g. madhuri@email.com" type="email" style={inputStyle}/>
               </div>
               <div>
-                <div style={{fontSize:'0.72rem',color:'#64748b',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Phone Number</div>
+                <div style={{fontSize:'0.72rem',color:'rgba(250,255,216,0.45)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>Phone Number</div>
                 <input value={form.phone} onChange={e=>set('phone',e.target.value.replace(/\D/g,'').slice(0,10))} placeholder="10-digit mobile number" type="tel" style={inputStyle}/>
               </div>
               <div>
-                <div style={{fontSize:'0.72rem',color:'#64748b',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>I am in Class</div>
+                <div style={{fontSize:'0.72rem',color:'rgba(250,255,216,0.45)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'6px',fontWeight:600}}>I am in Class</div>
                 <div style={{display:'flex',gap:'10px'}}>
                   {['XI','XII'].map(c=>(
-                    <button key={c} onClick={()=>set('class_level',c)} style={{flex:1,padding:'11px',borderRadius:'10px',border:`1px solid ${form.class_level===c?'#f59e0b':'#2d3f6b'}`,cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.95rem',fontWeight:600,background:form.class_level===c?'#f59e0b22':'transparent',color:form.class_level===c?'#f59e0b':'#64748b',transition:'all 0.15s'}}>
+                    <button key={c} onClick={()=>set('class_level',c)} style={{flex:1,padding:'11px',borderRadius:'10px',border:`1px solid ${form.class_level===c?'#ecffb0':'#226ce040'}`,cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.95rem',fontWeight:600,background:form.class_level===c?'#ecffb022':'transparent',color:form.class_level===c?'#ecffb0':'rgba(250,255,216,0.45)',transition:'all 0.15s'}}>
                       Class {c}
                     </button>
                   ))}
                 </div>
               </div>
               {error && <div style={{background:'#450a0a',border:'1px solid #7f1d1d',borderRadius:'8px',padding:'10px 14px',color:'#fca5a5',fontSize:'0.82rem',fontFamily:'DM Sans'}}>{error}</div>}
-              <button onClick={handleSubmit} disabled={step==='submitting'} style={{marginTop:'6px',width:'100%',padding:'14px',background:step==='submitting'?'#92400e':'#f59e0b',color:'#0f1729',border:'none',borderRadius:'10px',cursor:step==='submitting'?'wait':'pointer',fontFamily:'DM Sans',fontSize:'1rem',fontWeight:700,transition:'all 0.15s'}}>
+              <button onClick={handleSubmit} disabled={step==='submitting'} style={{marginTop:'6px',width:'100%',padding:'14px',background:step==='submitting'?'#1a4faa':'#226ce0',color:'#faffd8',border:'none',borderRadius:'10px',cursor:step==='submitting'?'wait':'pointer',fontFamily:'DM Sans',fontSize:'1rem',fontWeight:700,transition:'all 0.15s'}}>
                 {step==='submitting' ? 'Registering…' : 'Get Free Access →'}
               </button>
-              <div style={{textAlign:'center',fontSize:'0.75rem',color:'#334155',lineHeight:'1.6'}}>No spam, ever. Your data is safe. 🔒</div>
+              <div style={{textAlign:'center',fontSize:'0.75rem',color:'rgba(250,255,216,0.22)',lineHeight:'1.6'}}>No spam, ever. Your data is safe. 🔒</div>
             </div>
           </>
         )}
@@ -106,7 +106,7 @@ function RegistrationPopup({ onComplete }) {
 }
 
 // ─── LANDING PAGE ─────────────────────────────────────────────────────────────
-function LandingPage({ onGetStarted }) {
+function LandingPage({ onGetStarted, onTryCalculator }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   const features = [
@@ -117,7 +117,7 @@ function LandingPage({ onGetStarted }) {
   ];
 
   const subjects = [
-    { icon: '📐', name: 'Mathematics', color: '#f59e0b', xi: 16, xii: 13, topics: 'Calculus · Algebra · Coordinate Geometry · Vectors' },
+    { icon: '📐', name: 'Mathematics', color: '#ecffb0', xi: 16, xii: 13, topics: 'Calculus · Algebra · Coordinate Geometry · Vectors' },
     { icon: '⚡', name: 'Physics', color: '#38bdf8', xi: 22, xii: 14, topics: 'Mechanics · Thermodynamics · Electromagnetism · Optics' },
     { icon: '🧪', name: 'Chemistry', color: '#34d399', xi: 14, xii: 17, topics: 'Organic · Inorganic · Physical · Electrochemistry' },
   ];
@@ -130,14 +130,17 @@ function LandingPage({ onGetStarted }) {
   ];
 
   return (
-    <div style={{ minHeight:'100vh', background:'#060c18', fontFamily:'DM Sans', color:'#e2e8f0', overflowX:'hidden' }}>
+    <div style={{ minHeight:'100vh', background:'#00171f', fontFamily:'DM Sans', color:'#faffd8', overflowX:'hidden' }}>
 
       {/* ── Navbar ── */}
-      <nav style={{ position:'sticky', top:0, zIndex:100, background:'rgba(6,12,24,0.85)', backdropFilter:'blur(12px)', borderBottom:'1px solid #1e2d4d', padding:'0 40px', height:'60px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-        <div style={{ fontFamily:'Playfair Display', fontSize:'1.4rem', fontWeight:700, color:'#f59e0b' }}>Skillora</div>
+      <nav style={{ position:'sticky', top:0, zIndex:100, background:'rgba(6,12,24,0.85)', backdropFilter:'blur(12px)', borderBottom:'1px solid #003050', padding:'0 40px', height:'60px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+        <div style={{ fontFamily:'Playfair Display', fontSize:'1.4rem', fontWeight:700, color:'#ecffb0' }}>Skillora</div>
         <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
-          <span style={{ fontSize:'0.82rem', color:'#475569' }}>JEE Class XI &amp; XII</span>
-          <button onClick={onGetStarted} style={{ padding:'8px 20px', borderRadius:'8px', background:'#f59e0b', border:'none', cursor:'pointer', fontFamily:'DM Sans', fontWeight:600, fontSize:'0.85rem', color:'#0f1729', transition:'all 0.15s' }}>
+          <span style={{ fontSize:'0.82rem', color:'rgba(250,255,216,0.35)' }}>JEE Class XI &amp; XII</span>
+          <button onClick={onTryCalculator} style={{ padding:'8px 18px', borderRadius:'8px', background:'transparent', border:'1px solid #226ce060', cursor:'pointer', fontFamily:'DM Sans', fontWeight:500, fontSize:'0.82rem', color:'rgba(250,255,216,0.65)', transition:'all 0.15s' }}>
+            🧮 Calculator
+          </button>
+          <button onClick={onGetStarted} style={{ padding:'8px 20px', borderRadius:'8px', background:'#226ce0', border:'none', cursor:'pointer', fontFamily:'DM Sans', fontWeight:600, fontSize:'0.85rem', color:'#faffd8', transition:'all 0.15s' }}>
             Get Started →
           </button>
         </div>
@@ -145,38 +148,43 @@ function LandingPage({ onGetStarted }) {
 
       {/* ── Hero ── */}
       <section style={{ padding:'100px 40px 80px', maxWidth:'900px', margin:'0 auto', textAlign:'center', position:'relative' }}>
-        <div style={{ position:'absolute', top:'60px', left:'50%', transform:'translateX(-50%)', width:'600px', height:'300px', background:'radial-gradient(ellipse, #f59e0b18 0%, transparent 70%)', pointerEvents:'none' }}/>
+        <div style={{ position:'absolute', top:'60px', left:'50%', transform:'translateX(-50%)', width:'600px', height:'300px', background:'radial-gradient(ellipse, #ecffb018 0%, transparent 70%)', pointerEvents:'none' }}/>
 
-        <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', background:'#f59e0b15', border:'1px solid #f59e0b33', borderRadius:'100px', padding:'6px 16px', fontSize:'0.75rem', color:'#f59e0b', fontWeight:600, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:'28px' }}>
+        <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', background:'#ecffb015', border:'1px solid #ecffb033', borderRadius:'100px', padding:'6px 16px', fontSize:'0.75rem', color:'#ecffb0', fontWeight:600, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:'28px' }}>
           ✦ Free JEE Prep Platform
         </div>
 
-        <h1 style={{ fontFamily:'Playfair Display', fontSize:'clamp(2.4rem, 5vw, 4rem)', fontWeight:700, color:'#f8fafc', lineHeight:1.15, marginBottom:'24px', letterSpacing:'-0.02em' }}>
+        <h1 style={{ fontFamily:'Playfair Display', fontSize:'clamp(2.4rem, 5vw, 4rem)', fontWeight:700, color:'#faffd8', lineHeight:1.15, marginBottom:'24px', letterSpacing:'-0.02em' }}>
           Your complete toolkit<br/>
-          <span style={{ color:'#f59e0b' }}>for JEE success</span>
+          <span style={{ color:'#ecffb0' }}>for JEE success</span>
         </h1>
 
-        <p style={{ fontSize:'clamp(1rem, 2vw, 1.15rem)', color:'#64748b', lineHeight:1.8, maxWidth:'560px', margin:'0 auto 40px' }}>
+        <p style={{ fontSize:'clamp(1rem, 2vw, 1.15rem)', color:'rgba(250,255,216,0.45)', lineHeight:1.8, maxWidth:'560px', margin:'0 auto 40px' }}>
           Handwritten notes for Class XI &amp; XII across Maths, Physics and Chemistry —
           plus 58+ smart calculators, all in one place.
         </p>
 
-        <button onClick={onGetStarted} style={{ display:'inline-flex', alignItems:'center', gap:'12px', padding:'16px 40px', borderRadius:'12px', background:'#f59e0b', border:'none', cursor:'pointer', fontFamily:'DM Sans', fontWeight:700, fontSize:'1.05rem', color:'#0f1729', boxShadow:'0 4px 24px rgba(245,158,11,0.3)', transition:'all 0.2s' }}>
-          Start for Free →
-        </button>
+        <div style={{ display:'flex', gap:'12px', justifyContent:'center', flexWrap:'wrap' }}>
+          <button onClick={onGetStarted} style={{ display:'inline-flex', alignItems:'center', gap:'10px', padding:'15px 36px', borderRadius:'12px', background:'#226ce0', border:'none', cursor:'pointer', fontFamily:'DM Sans', fontWeight:700, fontSize:'1.05rem', color:'#faffd8', boxShadow:'0 4px 24px rgba(34,108,224,0.35)', transition:'all 0.2s' }}>
+            Get Free Notes →
+          </button>
+          <button onClick={onTryCalculator} style={{ display:'inline-flex', alignItems:'center', gap:'10px', padding:'15px 32px', borderRadius:'12px', background:'rgba(236,255,176,0.08)', border:'1px solid rgba(236,255,176,0.25)', cursor:'pointer', fontFamily:'DM Sans', fontWeight:600, fontSize:'1.05rem', color:'#ecffb0', transition:'all 0.2s' }}>
+            🧮 Try Calculator Free
+          </button>
+        </div>
 
-        <p style={{ marginTop:'16px', fontSize:'0.75rem', color:'#334155' }}>
-          Free forever · No credit card required
+        <p style={{ marginTop:'16px', fontSize:'0.75rem', color:'rgba(250,255,216,0.22)' }}>
+          Calculator needs no signup · Notes are free forever
         </p>
       </section>
 
       {/* ── Stats Bar ── */}
-      <section style={{ borderTop:'1px solid #1e2d4d', borderBottom:'1px solid #1e2d4d', background:'#0a0f1e', padding:'32px 40px' }}>
+      <section style={{ borderTop:'1px solid #003050', borderBottom:'1px solid #003050', background:'#001e2a', padding:'32px 40px' }}>
         <div style={{ maxWidth:'800px', margin:'0 auto', display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'24px', textAlign:'center' }}>
           {stats.map(s => (
             <div key={s.label}>
-              <div style={{ fontFamily:'Playfair Display', fontSize:'2rem', fontWeight:700, color:'#f59e0b' }}>{s.value}</div>
-              <div style={{ fontSize:'0.8rem', color:'#475569', marginTop:'4px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{s.label}</div>
+              <div style={{ fontFamily:'Playfair Display', fontSize:'2rem', fontWeight:700, color:'#ecffb0' }}>{s.value}</div>
+              <div style={{ fontSize:'0.8rem', color:'rgba(250,255,216,0.35)', marginTop:'4px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -185,17 +193,17 @@ function LandingPage({ onGetStarted }) {
       {/* ── Features ── */}
       <section style={{ padding:'80px 40px', maxWidth:'1000px', margin:'0 auto' }}>
         <div style={{ textAlign:'center', marginBottom:'56px' }}>
-          <div style={{ fontSize:'0.72rem', color:'#f59e0b', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:600, marginBottom:'12px' }}>What's inside</div>
-          <h2 style={{ fontFamily:'Playfair Display', fontSize:'clamp(1.8rem, 3vw, 2.6rem)', fontWeight:700, color:'#f8fafc' }}>
+          <div style={{ fontSize:'0.72rem', color:'#ecffb0', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:600, marginBottom:'12px' }}>What's inside</div>
+          <h2 style={{ fontFamily:'Playfair Display', fontSize:'clamp(1.8rem, 3vw, 2.6rem)', fontWeight:700, color:'#faffd8' }}>
             Everything you need to crack JEE
           </h2>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))', gap:'20px' }}>
           {features.map((f, i) => (
-            <div key={f.title} onMouseEnter={()=>setHoveredCard(i)} onMouseLeave={()=>setHoveredCard(null)} style={{ background:hoveredCard===i?'#1e2d4d':'#0a0f1e', border:`1px solid ${hoveredCard===i?'#f59e0b44':'#1e2d4d'}`, borderRadius:'16px', padding:'28px 24px', transition:'all 0.2s', cursor:'default' }}>
+            <div key={f.title} onMouseEnter={()=>setHoveredCard(i)} onMouseLeave={()=>setHoveredCard(null)} style={{ background:hoveredCard===i?'#003050':'#001e2a', border:`1px solid ${hoveredCard===i?'#ecffb044':'#003050'}`, borderRadius:'16px', padding:'28px 24px', transition:'all 0.2s', cursor:'default' }}>
               <div style={{ fontSize:'2rem', marginBottom:'16px' }}>{f.icon}</div>
-              <div style={{ fontFamily:'Playfair Display', fontSize:'1.1rem', fontWeight:600, color:'#f8fafc', marginBottom:'10px' }}>{f.title}</div>
-              <div style={{ fontSize:'0.83rem', color:'#64748b', lineHeight:1.7 }}>{f.desc}</div>
+              <div style={{ fontFamily:'Playfair Display', fontSize:'1.1rem', fontWeight:600, color:'#faffd8', marginBottom:'10px' }}>{f.title}</div>
+              <div style={{ fontSize:'0.83rem', color:'rgba(250,255,216,0.45)', lineHeight:1.7 }}>{f.desc}</div>
             </div>
           ))}
         </div>
@@ -204,23 +212,23 @@ function LandingPage({ onGetStarted }) {
       {/* ── Subjects ── */}
       <section style={{ padding:'0 40px 80px', maxWidth:'1000px', margin:'0 auto' }}>
         <div style={{ textAlign:'center', marginBottom:'48px' }}>
-          <div style={{ fontSize:'0.72rem', color:'#f59e0b', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:600, marginBottom:'12px' }}>Subjects covered</div>
-          <h2 style={{ fontFamily:'Playfair Display', fontSize:'clamp(1.8rem, 3vw, 2.6rem)', fontWeight:700, color:'#f8fafc' }}>
+          <div style={{ fontSize:'0.72rem', color:'#ecffb0', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:600, marginBottom:'12px' }}>Subjects covered</div>
+          <h2 style={{ fontFamily:'Playfair Display', fontSize:'clamp(1.8rem, 3vw, 2.6rem)', fontWeight:700, color:'#faffd8' }}>
             Handwritten notes, beautifully organised
           </h2>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))', gap:'20px' }}>
           {subjects.map(s => (
-            <div key={s.name} style={{ background:'#0a0f1e', border:`1px solid ${s.color}33`, borderRadius:'16px', padding:'28px 24px', borderTop:`3px solid ${s.color}` }}>
+            <div key={s.name} style={{ background:'#001e2a', border:`1px solid ${s.color}33`, borderRadius:'16px', padding:'28px 24px', borderTop:`3px solid ${s.color}` }}>
               <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'16px' }}>
                 <span style={{ fontSize:'1.6rem' }}>{s.icon}</span>
-                <span style={{ fontFamily:'Playfair Display', fontSize:'1.2rem', fontWeight:700, color:'#f8fafc' }}>{s.name}</span>
+                <span style={{ fontFamily:'Playfair Display', fontSize:'1.2rem', fontWeight:700, color:'#faffd8' }}>{s.name}</span>
               </div>
               <div style={{ display:'flex', gap:'10px', marginBottom:'16px', flexWrap:'wrap' }}>
                 <span style={{ background:s.color+'22', color:s.color, borderRadius:'6px', padding:'4px 10px', fontSize:'0.72rem', fontWeight:600 }}>Class XI — {s.xi} chapters</span>
                 <span style={{ background:s.color+'22', color:s.color, borderRadius:'6px', padding:'4px 10px', fontSize:'0.72rem', fontWeight:600 }}>Class XII — {s.xii} chapters</span>
               </div>
-              <div style={{ fontSize:'0.78rem', color:'#475569', lineHeight:1.8 }}>{s.topics}</div>
+              <div style={{ fontSize:'0.78rem', color:'rgba(250,255,216,0.35)', lineHeight:1.8 }}>{s.topics}</div>
             </div>
           ))}
         </div>
@@ -228,24 +236,24 @@ function LandingPage({ onGetStarted }) {
 
       {/* ── CTA Banner ── */}
       <section style={{ margin:'0 auto 80px', maxWidth:'900px', padding:'0 40px' }}>
-        <div style={{ background:'linear-gradient(135deg, #1e2d4d 0%, #0f1729 100%)', border:'1px solid #f59e0b33', borderRadius:'20px', padding:'60px 40px', textAlign:'center', position:'relative', overflow:'hidden' }}>
-          <div style={{ position:'absolute', top:'-60px', right:'-60px', width:'240px', height:'240px', background:'radial-gradient(circle, #f59e0b15, transparent 70%)', pointerEvents:'none' }}/>
-          <h2 style={{ fontFamily:'Playfair Display', fontSize:'clamp(1.6rem, 3vw, 2.4rem)', fontWeight:700, color:'#f8fafc', marginBottom:'16px' }}>
+        <div style={{ background:'linear-gradient(135deg, #003050 0%, #002535 100%)', border:'1px solid #ecffb033', borderRadius:'20px', padding:'60px 40px', textAlign:'center', position:'relative', overflow:'hidden' }}>
+          <div style={{ position:'absolute', top:'-60px', right:'-60px', width:'240px', height:'240px', background:'radial-gradient(circle, #ecffb015, transparent 70%)', pointerEvents:'none' }}/>
+          <h2 style={{ fontFamily:'Playfair Display', fontSize:'clamp(1.6rem, 3vw, 2.4rem)', fontWeight:700, color:'#faffd8', marginBottom:'16px' }}>
             Ready to start studying smarter?
           </h2>
-          <p style={{ color:'#64748b', fontSize:'0.95rem', marginBottom:'32px', lineHeight:1.7 }}>
+          <p style={{ color:'rgba(250,255,216,0.45)', fontSize:'0.95rem', marginBottom:'32px', lineHeight:1.7 }}>
             Join students already using Skillora to prepare for JEE.
           </p>
-          <button onClick={onGetStarted} style={{ padding:'14px 36px', borderRadius:'10px', background:'#f59e0b', border:'none', cursor:'pointer', fontFamily:'DM Sans', fontWeight:700, fontSize:'0.95rem', color:'#0f1729', transition:'all 0.15s' }}>
+          <button onClick={onGetStarted} style={{ padding:'14px 36px', borderRadius:'10px', background:'#226ce0', border:'none', cursor:'pointer', fontFamily:'DM Sans', fontWeight:700, fontSize:'0.95rem', color:'#faffd8', transition:'all 0.15s' }}>
             Create Free Account →
           </button>
         </div>
       </section>
 
       {/* ── Footer ── */}
-      <footer style={{ borderTop:'1px solid #1e2d4d', padding:'32px 40px', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:'16px' }}>
-        <div style={{ fontFamily:'Playfair Display', fontSize:'1.1rem', fontWeight:700, color:'#f59e0b' }}>Skillora</div>
-        <div style={{ fontSize:'0.75rem', color:'#334155' }}>© 2025 Skillora. All rights reserved. Handwritten notes are original works protected by copyright.</div>
+      <footer style={{ borderTop:'1px solid #003050', padding:'32px 40px', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:'16px' }}>
+        <div style={{ fontFamily:'Playfair Display', fontSize:'1.1rem', fontWeight:700, color:'#ecffb0' }}>Skillora</div>
+        <div style={{ fontSize:'0.75rem', color:'rgba(250,255,216,0.22)' }}>© 2025 Skillora. All rights reserved. Handwritten notes are original works protected by copyright.</div>
       </footer>
     </div>
   );
@@ -300,10 +308,10 @@ const det3 = A => A[0][0]*(A[1][1]*A[2][2]-A[1][2]*A[2][1]) - A[0][1]*(A[1][0]*A
 const inv2 = A => { const d = det2(A); return [[A[1][1]/d, -A[0][1]/d], [-A[1][0]/d, A[0][0]/d]]; };
 
 // ─── SHARED COMPONENTS ──────────────────────────────────────────────────────
-const Label = ({children}) => <label style={{display:'block',fontSize:'0.75rem',fontFamily:'DM Sans',color:'#94a3b8',letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:'4px'}}>{children}</label>;
-const Input = ({...p}) => <input {...p} style={{width:'100%',background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'8px',padding:'10px 14px',color:'#e2e8f0',fontFamily:'JetBrains Mono',fontSize:'0.95rem',outline:'none',boxSizing:'border-box',...p.style}} />;
-const Btn = ({children,onClick,variant='primary',style={}}) => <button onClick={onClick} style={{padding:'10px 22px',borderRadius:'8px',border:'none',cursor:'pointer',fontFamily:'DM Sans',fontWeight:500,fontSize:'0.9rem',transition:'all 0.15s',...(variant==='primary'?{background:'#f59e0b',color:'#0f1729'}:{background:'#1e2d4d',color:'#94a3b8'}),...style}}>{children}</button>;
-const Result = ({children,label='Result'}) => children!=null && children!=='' ? <div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><div style={{fontSize:'0.7rem',color:'#f59e0b',fontFamily:'DM Sans',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'6px'}}>{label}</div><div style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'1.05rem',wordBreak:'break-all'}}>{children}</div></div> : null;
+const Label = ({children}) => <label style={{display:'block',fontSize:'0.75rem',fontFamily:'DM Sans',color:'rgba(250,255,216,0.65)',letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:'4px'}}>{children}</label>;
+const Input = ({...p}) => <input {...p} style={{width:'100%',background:'#002535',border:'1px solid #226ce040',borderRadius:'8px',padding:'10px 14px',color:'#faffd8',fontFamily:'JetBrains Mono',fontSize:'0.95rem',outline:'none',boxSizing:'border-box',...p.style}} />;
+const Btn = ({children,onClick,variant='primary',style={}}) => <button onClick={onClick} style={{padding:'10px 22px',borderRadius:'8px',border:'none',cursor:'pointer',fontFamily:'DM Sans',fontWeight:500,fontSize:'0.9rem',transition:'all 0.15s',...(variant==='primary'?{background:'#226ce0',color:'#faffd8'}:{background:'#003050',color:'rgba(250,255,216,0.65)'}),...style}}>{children}</button>;
+const Result = ({children,label='Result'}) => children!=null && children!=='' ? <div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><div style={{fontSize:'0.7rem',color:'#ecffb0',fontFamily:'DM Sans',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'6px'}}>{label}</div><div style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'1.05rem',wordBreak:'break-all'}}>{children}</div></div> : null;
 const Row = ({children}) => <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px'}}>{children}</div>;
 const Field = ({label,children}) => <div><Label>{label}</Label>{children}</div>;
 
@@ -347,7 +355,7 @@ function MaxMin() {
 function MultiplicationTable() {
   const [n,setN]=useState(''); const [upto,setUpto]=useState('12'); const [res,setRes]=useState(null);
   const calc = () => { const x=parseInt(n),u=parseInt(upto); if(isNaN(x)||isNaN(u)) return; const rows = Array.from({length:u},(_,i)=>`${x} × ${i+1} = ${x*(i+1)}`); setRes(rows.join('\n')); };
-  return <div><Row><Field label="Number"><Input value={n} onChange={e=>setN(e.target.value)} placeholder="e.g. 7"/></Field><Field label="Up to"><Input value={upto} onChange={e=>setUpto(e.target.value)} placeholder="12"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Generate Table</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.8'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="Number"><Input value={n} onChange={e=>setN(e.target.value)} placeholder="e.g. 7"/></Field><Field label="Up to"><Input value={upto} onChange={e=>setUpto(e.target.value)} placeholder="12"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Generate Table</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.8'}}>{res}</pre></div>}</div>;
 }
 function SimplifyFraction() {
   const [n,setN]=useState(''); const [d,setD]=useState(''); const [res,setRes]=useState(null);
@@ -364,7 +372,7 @@ function Mensuration() {
   const shapes = { circle:{label:'Circle',fields:['Radius'],calc:v=>`Area = π×r² = ${(Math.PI*v[0]**2).toFixed(4)}\nCircumference = 2πr = ${(2*Math.PI*v[0]).toFixed(4)}`}, rectangle:{label:'Rectangle',fields:['Length','Width'],calc:v=>`Area = ${v[0]*v[1]}\nPerimeter = ${2*(v[0]+v[1])}`}, triangle:{label:'Triangle (sides)',fields:['Side a','Side b','Side c'],calc:v=>{const s=(v[0]+v[1]+v[2])/2;const area=Math.sqrt(s*(s-v[0])*(s-v[1])*(s-v[2]));return `Area (Heron's) = ${area.toFixed(4)}\nPerimeter = ${v[0]+v[1]+v[2]}`}}, square:{label:'Square',fields:['Side'],calc:v=>`Area = ${v[0]**2}\nPerimeter = ${4*v[0]}\nDiagonal = ${(v[0]*Math.SQRT2).toFixed(4)}`}, parallelogram:{label:'Parallelogram',fields:['Base','Height'],calc:v=>`Area = base × height = ${v[0]*v[1]}`}, trapezium:{label:'Trapezium',fields:['Side a','Side b','Height'],calc:v=>`Area = ½(a+b)×h = ${0.5*(v[0]+v[1])*v[2]}`}, rhombus:{label:'Rhombus',fields:['Diagonal 1','Diagonal 2'],calc:v=>`Area = ½×d1×d2 = ${0.5*v[0]*v[1]}`}, cube:{label:'Cube',fields:['Side'],calc:v=>`Volume = ${v[0]**3}\nSurface Area = ${6*v[0]**2}\nLateral SA = ${4*v[0]**2}`}, cuboid:{label:'Cuboid',fields:['Length','Width','Height'],calc:v=>`Volume = ${v[0]*v[1]*v[2]}\nSurface Area = ${2*(v[0]*v[1]+v[1]*v[2]+v[0]*v[2])}`}, sphere:{label:'Sphere',fields:['Radius'],calc:v=>`Volume = 4/3×π×r³ = ${(4/3*Math.PI*v[0]**3).toFixed(4)}\nSurface Area = 4πr² = ${(4*Math.PI*v[0]**2).toFixed(4)}`}, cylinder:{label:'Cylinder',fields:['Radius','Height'],calc:v=>`Volume = πr²h = ${(Math.PI*v[0]**2*v[1]).toFixed(4)}\nCurved SA = 2πrh = ${(2*Math.PI*v[0]*v[1]).toFixed(4)}\nTotal SA = ${(2*Math.PI*v[0]*(v[0]+v[1])).toFixed(4)}`}, cone:{label:'Cone',fields:['Radius','Height'],calc:v=>{const l=Math.sqrt(v[0]**2+v[1]**2);return `Volume = 1/3×πr²h = ${(Math.PI*v[0]**2*v[1]/3).toFixed(4)}\nSlant height = ${l.toFixed(4)}\nCurved SA = πrl = ${(Math.PI*v[0]*l).toFixed(4)}`}}, };
   const s = shapes[shape];
   const calc = () => { const vs = s.fields.map((_,i)=>parseFloat(vals[i]||'')); if(vs.some(isNaN)||vs.some(v=>v<=0)) return setRes('Enter valid positive values'); setRes(s.calc(vs)); };
-  return <div><Label>Shape</Label><select value={shape} onChange={e=>{setShape(e.target.value);setVals({});setRes(null);}} style={{width:'100%',background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'8px',padding:'10px 14px',color:'#e2e8f0',fontFamily:'DM Sans',marginBottom:'12px'}}>{Object.entries(shapes).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}</select><Row>{s.fields.map((f,i)=><Field key={f} label={f}><Input value={vals[i]||''} onChange={e=>setVals(p=>({...p,[i]:e.target.value}))}/></Field>)}</Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.95rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Label>Shape</Label><select value={shape} onChange={e=>{setShape(e.target.value);setVals({});setRes(null);}} style={{width:'100%',background:'#002535',border:'1px solid #226ce040',borderRadius:'8px',padding:'10px 14px',color:'#faffd8',fontFamily:'DM Sans',marginBottom:'12px'}}>{Object.entries(shapes).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}</select><Row>{s.fields.map((f,i)=><Field key={f} label={f}><Input value={vals[i]||''} onChange={e=>setVals(p=>({...p,[i]:e.target.value}))}/></Field>)}</Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.95rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function AngleDecider() {
   const [a,setA]=useState(''); const [res,setRes]=useState(null);
@@ -414,16 +422,16 @@ function CompareFractions() {
 function Statistics() {
   const [nums,setNums]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const arr=nums.split(/[\s,]+/).map(Number).filter(x=>!isNaN(x)); if(!arr.length) return; const sorted=[...arr].sort((a,b)=>a-b); const mean=arr.reduce((s,v)=>s+v,0)/arr.length; const n=sorted.length; const median=n%2===0?(sorted[n/2-1]+sorted[n/2])/2:sorted[Math.floor(n/2)]; const freq={};arr.forEach(v=>freq[v]=(freq[v]||0)+1); const maxFreq=Math.max(...Object.values(freq)); const modes=Object.keys(freq).filter(k=>freq[k]===maxFreq).map(Number); setRes(`Mean: ${mean.toFixed(4)}\nMedian: ${median}\nMode: ${modes.join(', ')}${maxFreq===1?' (no mode)':''}\nSum: ${arr.reduce((s,v)=>s+v,0)}\nCount: ${n}\nRange: ${sorted[n-1]-sorted[0]}`); };
-  return <div><Field label="Numbers (comma or space separated)"><Input value={nums} onChange={e=>setNums(e.target.value)} placeholder="e.g. 4, 7, 2, 7, 9, 1"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Field label="Numbers (comma or space separated)"><Input value={nums} onChange={e=>setNums(e.target.value)} placeholder="e.g. 4, 7, 2, 7, 9, 1"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function LinearEq() {
   const [a,setA]=useState(''); const [b,setB]=useState(''); const [res,setRes]=useState(null);
-  return <div><div style={{background:'#0a0f1e',borderRadius:'8px',padding:'12px 16px',marginBottom:'12px',fontFamily:'JetBrains Mono',color:'#94a3b8',fontSize:'0.85rem'}}>Solve: ax + b = 0</div><Row><Field label="a (coefficient of x)"><Input value={a} onChange={e=>setA(e.target.value)} placeholder="e.g. 3"/></Field><Field label="b (constant)"><Input value={b} onChange={e=>setB(e.target.value)} placeholder="e.g. -12"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={()=>{const A=parseFloat(a),B=parseFloat(b);if(isNaN(A)||isNaN(B))return;setRes(A===0?B===0?'Infinite solutions':'No solution':`x = ${-B/A}`);}}>Solve</Btn><Result>{res}</Result></div>;
+  return <div><div style={{background:'#001e2a',borderRadius:'8px',padding:'12px 16px',marginBottom:'12px',fontFamily:'JetBrains Mono',color:'rgba(250,255,216,0.65)',fontSize:'0.85rem'}}>Solve: ax + b = 0</div><Row><Field label="a (coefficient of x)"><Input value={a} onChange={e=>setA(e.target.value)} placeholder="e.g. 3"/></Field><Field label="b (constant)"><Input value={b} onChange={e=>setB(e.target.value)} placeholder="e.g. -12"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={()=>{const A=parseFloat(a),B=parseFloat(b);if(isNaN(A)||isNaN(B))return;setRes(A===0?B===0?'Infinite solutions':'No solution':`x = ${-B/A}`);}}>Solve</Btn><Result>{res}</Result></div>;
 }
 function CompSupAngles() {
   const [a,setA]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const v=parseFloat(a); if(isNaN(v)||v<0||v>180) return; const comp=90-v; const supp=180-v; setRes(`Complementary angle: ${comp>=0?comp:'Not possible (angle > 90°)'}\nSupplementary angle: ${supp>=0?supp:'Not possible (angle > 180°)'}`); };
-  return <div><Field label="Angle (degrees)"><Input value={a} onChange={e=>setA(e.target.value)} placeholder="e.g. 60"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.95rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Field label="Angle (degrees)"><Input value={a} onChange={e=>setA(e.target.value)} placeholder="e.g. 60"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.95rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function PythagoreanTriplet() {
   const [a,setA]=useState(''); const [b,setB]=useState(''); const [c,setC]=useState(''); const [res,setRes]=useState(null);
@@ -448,7 +456,7 @@ function Factors() {
 function ProfitLoss() {
   const [cp,setCp]=useState(''); const [sp,setSp]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const c=parseFloat(cp),s=parseFloat(sp); if(isNaN(c)||isNaN(s)||c<=0) return; const diff=s-c; const pct=(Math.abs(diff)/c*100).toFixed(4); setRes(diff>0?`Profit = ${diff}\nProfit % = ${pct}%`:diff<0?`Loss = ${Math.abs(diff)}\nLoss % = ${pct}%`:`No Profit, No Loss`); };
-  return <div><Row><Field label="Cost Price (CP)"><Input value={cp} onChange={e=>setCp(e.target.value)} placeholder="e.g. 500"/></Field><Field label="Selling Price (SP)"><Input value={sp} onChange={e=>setSp(e.target.value)} placeholder="e.g. 650"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="Cost Price (CP)"><Input value={cp} onChange={e=>setCp(e.target.value)} placeholder="e.g. 500"/></Field><Field label="Selling Price (SP)"><Input value={sp} onChange={e=>setSp(e.target.value)} placeholder="e.g. 650"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function RationalOps() {
   const [n1,setN1]=useState(''); const [d1,setD1]=useState(''); const [n2,setN2]=useState(''); const [d2,setD2]=useState(''); const [op,setOp]=useState('+'); const [res,setRes]=useState(null);
@@ -473,17 +481,17 @@ function PrimeFactorization() {
 function SquaresRoots() {
   const [n,setN]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const v=parseFloat(n); if(isNaN(v)) return; const sq=v*v, sr=Math.sqrt(v); setRes(`${v}² = ${sq}\n√${v} = ${sr}${Number.isInteger(sr)?' (perfect square)':''}`); };
-  return <div><Field label="Number"><Input value={n} onChange={e=>setN(e.target.value)} placeholder="e.g. 9"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Field label="Number"><Input value={n} onChange={e=>setN(e.target.value)} placeholder="e.g. 9"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function CubesRoots() {
   const [n,setN]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const v=parseFloat(n); if(isNaN(v)) return; const cu=v**3, cr=Math.cbrt(v); setRes(`${v}³ = ${cu}\n∛${v} = ${parseFloat(cr.toFixed(10))}${Number.isInteger(cr)?' (perfect cube)':''}`); };
-  return <div><Field label="Number"><Input value={n} onChange={e=>setN(e.target.value)} placeholder="e.g. 27"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Field label="Number"><Input value={n} onChange={e=>setN(e.target.value)} placeholder="e.g. 27"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function GCDLCM() {
   const [nums,setNums]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const arr=nums.split(/[\s,]+/).map(Number).filter(x=>!isNaN(x)&&x>0&&Number.isInteger(x)); if(arr.length<2) return setRes('Enter at least 2 positive integers'); const g=arr.reduce((a,b)=>gcd(a,b)); const l=arr.reduce((a,b)=>lcm(a,b)); setRes(`GCD (HCF) = ${g}\nLCM = ${l}`); };
-  return <div><Field label="Numbers (at least 2, comma separated)"><Input value={nums} onChange={e=>setNums(e.target.value)} placeholder="e.g. 12, 18, 24"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate GCD &amp; LCM</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Field label="Numbers (at least 2, comma separated)"><Input value={nums} onChange={e=>setNums(e.target.value)} placeholder="e.g. 12, 18, 24"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate GCD &amp; LCM</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function Factorial2() {
   const [n,setN]=useState(''); const [res,setRes]=useState(null);
@@ -493,33 +501,33 @@ function Factorial2() {
 function Discount() {
   const [mp,setMp]=useState(''); const [disc,setDisc]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const m=parseFloat(mp),d=parseFloat(disc); if(isNaN(m)||isNaN(d)||d<0||d>100) return; const discAmt=m*d/100, sp=m-discAmt; setRes(`Marked Price: ${m}\nDiscount (${d}%): -${discAmt.toFixed(2)}\nSelling Price: ${sp.toFixed(2)}`); };
-  return <div><Row><Field label="Marked Price"><Input value={mp} onChange={e=>setMp(e.target.value)} placeholder="e.g. 1200"/></Field><Field label="Discount %"><Input value={disc} onChange={e=>setDisc(e.target.value)} placeholder="e.g. 15"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="Marked Price"><Input value={mp} onChange={e=>setMp(e.target.value)} placeholder="e.g. 1200"/></Field><Field label="Discount %"><Input value={disc} onChange={e=>setDisc(e.target.value)} placeholder="e.g. 15"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function SICI() {
   const [p,setP]=useState(''); const [r,setR]=useState(''); const [t,setT]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const P=parseFloat(p),R=parseFloat(r),T=parseFloat(t); if([P,R,T].some(isNaN)||P<=0) return; const SI=P*R*T/100; const CI=P*(Math.pow(1+R/100,T)-1); setRes(`Principal: ${P}\nRate: ${R}%  Time: ${T} years\n\nSimple Interest (SI) = ${SI.toFixed(4)}\nAmount (SI) = ${(P+SI).toFixed(4)}\n\nCompound Interest (CI) = ${CI.toFixed(4)}\nAmount (CI) = ${(P+CI).toFixed(4)}\n\nDifference (CI - SI) = ${(CI-SI).toFixed(4)}`); };
-  return <div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'12px'}}><Field label="Principal (P)"><Input value={p} onChange={e=>setP(e.target.value)} placeholder="e.g. 5000"/></Field><Field label="Rate % (R)"><Input value={r} onChange={e=>setR(e.target.value)} placeholder="e.g. 10"/></Field><Field label="Time (T years)"><Input value={t} onChange={e=>setT(e.target.value)} placeholder="e.g. 3"/></Field></div><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate SI &amp; CI</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'12px'}}><Field label="Principal (P)"><Input value={p} onChange={e=>setP(e.target.value)} placeholder="e.g. 5000"/></Field><Field label="Rate % (R)"><Input value={r} onChange={e=>setR(e.target.value)} placeholder="e.g. 10"/></Field><Field label="Time (T years)"><Input value={t} onChange={e=>setT(e.target.value)} placeholder="e.g. 3"/></Field></div><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate SI &amp; CI</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function AlgebraicIdentities() {
   const [a,setA]=useState(''); const [b,setB]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const x=parseFloat(a),y=parseFloat(b); if(isNaN(x)||isNaN(y)) return; setRes(`(a+b)² = a²+2ab+b² = ${(x+y)**2}\n(a-b)² = a²-2ab+b² = ${(x-y)**2}\na²-b² = (a+b)(a-b) = ${x**2-y**2}\n(a+b)³ = ${(x+y)**3}\n(a-b)³ = ${(x-y)**3}\na³+b³ = (a+b)(a²-ab+b²) = ${x**3+y**3}\na³-b³ = (a-b)(a²+ab+b²) = ${x**3-y**3}`); };
-  return <div><Row><Field label="a"><Input value={a} onChange={e=>setA(e.target.value)} placeholder="e.g. 3"/></Field><Field label="b"><Input value={b} onChange={e=>setB(e.target.value)} placeholder="e.g. 5"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Evaluate All Identities</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="a"><Input value={a} onChange={e=>setA(e.target.value)} placeholder="e.g. 3"/></Field><Field label="b"><Input value={b} onChange={e=>setB(e.target.value)} placeholder="e.g. 5"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Evaluate All Identities</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function PolyDivision() {
   const [div,setDiv]=useState(''); const [divis,setDivis]=useState(''); const [res,setRes]=useState(null);
   const parseP = s => s.split(/\s+/).map(Number).filter(x=>!isNaN(x));
   const calc = () => { const d=parseP(div), v=parseP(divis); if(!d.length||!v.length||v.length>d.length) return setRes('Invalid. Enter coefficients highest to lowest'); let rem=[...d]; const q=[]; for(let i=0;i<=d.length-v.length;i++){const coef=rem[i]/v[0];q.push(coef);for(let j=0;j<v.length;j++) rem[i+j]-=coef*v[j];} const qStr=q.map((c,i)=>{const exp=q.length-1-i;return `${parseFloat(c.toFixed(6))}x^${exp}`;}).join(' + '); const rStr=rem.slice(v.length-1).map((c,i)=>{const exp=rem.slice(v.length-1).length-1-i;return `${parseFloat(c.toFixed(6))}x^${exp}`;}).join(' + '); setRes(`Quotient: ${qStr}\nRemainder: ${rStr}`); };
-  return <div><div style={{background:'#0a0f1e',borderRadius:'8px',padding:'10px 14px',marginBottom:'12px',color:'#94a3b8',fontSize:'0.8rem',fontFamily:'DM Sans'}}>Enter coefficients space-separated (highest degree first). E.g. x²-3x+2 → "1 -3 2"</div><Field label="Dividend"><Input value={div} onChange={e=>setDiv(e.target.value)} placeholder="e.g. 2 -5 3"/></Field><div style={{height:'12px'}}/><Field label="Divisor"><Input value={divis} onChange={e=>setDivis(e.target.value)} placeholder="e.g. 1 -1"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Divide</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><div style={{background:'#001e2a',borderRadius:'8px',padding:'10px 14px',marginBottom:'12px',color:'rgba(250,255,216,0.65)',fontSize:'0.8rem',fontFamily:'DM Sans'}}>Enter coefficients space-separated (highest degree first). E.g. x²-3x+2 → "1 -3 2"</div><Field label="Dividend"><Input value={div} onChange={e=>setDiv(e.target.value)} placeholder="e.g. 2 -5 3"/></Field><div style={{height:'12px'}}/><Field label="Divisor"><Input value={divis} onChange={e=>setDivis(e.target.value)} placeholder="e.g. 1 -1"/></Field><Btn style={{marginTop:'12px'}} onClick={calc}>Divide</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function SystemLinear() {
   const [a,setA]=useState(''); const [b,setB]=useState(''); const [c,setC]=useState(''); const [d,setD]=useState(''); const [e,setE]=useState(''); const [f,setF]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const A=parseFloat(a),B=parseFloat(b),C=parseFloat(c),D=parseFloat(d),E=parseFloat(e),F=parseFloat(f); if([A,B,C,D,E,F].some(isNaN)) return; const det=A*E-B*D; if(det===0) return setRes('No unique solution (parallel or coincident lines)'); const x=(C*E-B*F)/det; const y=(A*F-C*D)/det; setRes(`x = ${parseFloat(x.toFixed(8))}\ny = ${parseFloat(y.toFixed(8))}`); };
-  return <div><div style={{background:'#0a0f1e',borderRadius:'8px',padding:'10px 14px',marginBottom:'12px',color:'#94a3b8',fontSize:'0.8rem',fontFamily:'DM Sans'}}>System: ax + by = c  and  dx + ey = f</div><div style={{marginBottom:'8px'}}><Label>Equation 1: ax + by = c</Label><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'8px'}}>{[['a',a,setA],['b',b,setB],['c',c,setC]].map(([l,v,s])=><div key={l}><Label>{l}</Label><Input value={v} onChange={e=>s(e.target.value)}/></div>)}</div></div><div><Label>Equation 2: dx + ey = f</Label><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'8px'}}>{[['d',d,setD],['e',e,setE],['f',f,setF]].map(([l,v,s])=><div key={l}><Label>{l}</Label><Input value={v} onChange={ee=>s(ee.target.value)}/></div>)}</div></div><Btn style={{marginTop:'12px'}} onClick={calc}>Solve</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.95rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><div style={{background:'#001e2a',borderRadius:'8px',padding:'10px 14px',marginBottom:'12px',color:'rgba(250,255,216,0.65)',fontSize:'0.8rem',fontFamily:'DM Sans'}}>System: ax + by = c  and  dx + ey = f</div><div style={{marginBottom:'8px'}}><Label>Equation 1: ax + by = c</Label><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'8px'}}>{[['a',a,setA],['b',b,setB],['c',c,setC]].map(([l,v,s])=><div key={l}><Label>{l}</Label><Input value={v} onChange={e=>s(e.target.value)}/></div>)}</div></div><div><Label>Equation 2: dx + ey = f</Label><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'8px'}}>{[['d',d,setD],['e',e,setE],['f',f,setF]].map(([l,v,s])=><div key={l}><Label>{l}</Label><Input value={v} onChange={ee=>s(ee.target.value)}/></div>)}</div></div><Btn style={{marginTop:'12px'}} onClick={calc}>Solve</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.95rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function QuadraticEq() {
   const [a,setA]=useState(''); const [b,setB]=useState(''); const [c,setC]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const A=parseFloat(a),B=parseFloat(b),C=parseFloat(c); if([A,B,C].some(isNaN)||A===0) return setRes('Invalid (a ≠ 0)'); const disc=B*B-4*A*C; if(disc>0){const x1=(-B+Math.sqrt(disc))/(2*A),x2=(-B-Math.sqrt(disc))/(2*A);setRes(`Discriminant = ${disc} > 0 → Two real roots\nx₁ = ${parseFloat(x1.toFixed(8))}\nx₂ = ${parseFloat(x2.toFixed(8))}`);}else if(disc===0){setRes(`Discriminant = 0 → One repeated root\nx = ${-B/(2*A)}`);}else{const re=-B/(2*A),im=Math.sqrt(-disc)/(2*A);setRes(`Discriminant = ${disc} < 0 → Complex roots\nx₁ = ${parseFloat(re.toFixed(8))} + ${parseFloat(im.toFixed(8))}i\nx₂ = ${parseFloat(re.toFixed(8))} - ${parseFloat(im.toFixed(8))}i`);} };
-  return <div><div style={{background:'#0a0f1e',borderRadius:'8px',padding:'10px 14px',marginBottom:'12px',color:'#94a3b8',fontSize:'0.8rem',fontFamily:'DM Sans'}}>Solve: ax² + bx + c = 0</div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'12px'}}><Field label="a"><Input value={a} onChange={e=>setA(e.target.value)} placeholder="e.g. 1"/></Field><Field label="b"><Input value={b} onChange={e=>setB(e.target.value)} placeholder="e.g. -5"/></Field><Field label="c"><Input value={c} onChange={e=>setC(e.target.value)} placeholder="e.g. 6"/></Field></div><Btn style={{marginTop:'12px'}} onClick={calc}>Solve</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><div style={{background:'#001e2a',borderRadius:'8px',padding:'10px 14px',marginBottom:'12px',color:'rgba(250,255,216,0.65)',fontSize:'0.8rem',fontFamily:'DM Sans'}}>Solve: ax² + bx + c = 0</div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'12px'}}><Field label="a"><Input value={a} onChange={e=>setA(e.target.value)} placeholder="e.g. 1"/></Field><Field label="b"><Input value={b} onChange={e=>setB(e.target.value)} placeholder="e.g. -5"/></Field><Field label="c"><Input value={c} onChange={e=>setC(e.target.value)} placeholder="e.g. 6"/></Field></div><Btn style={{marginTop:'12px'}} onClick={calc}>Solve</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function DistanceFormula() {
   const [x1,setX1]=useState(''); const [y1,setY1]=useState(''); const [x2,setX2]=useState(''); const [y2,setY2]=useState(''); const [res,setRes]=useState(null);
@@ -534,22 +542,22 @@ function SectionFormula() {
 function SlopeCalc() {
   const [x1,setX1]=useState(''); const [y1,setY1]=useState(''); const [x2,setX2]=useState(''); const [y2,setY2]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const a=parseFloat(x1),b=parseFloat(y1),c=parseFloat(x2),d=parseFloat(y2); if([a,b,c,d].some(isNaN)) return; if(c===a) return setRes('Undefined (vertical line)'); const slope=(d-b)/(c-a); const angle=Math.atan(slope)*180/Math.PI; setRes(`Slope (m) = (${d}-${b})/(${c}-${a}) = ${parseFloat(slope.toFixed(8))}\nAngle with x-axis = ${parseFloat(angle.toFixed(4))}°`); };
-  return <div><Row><Field label="x₁"><Input value={x1} onChange={e=>setX1(e.target.value)}/></Field><Field label="y₁"><Input value={y1} onChange={e=>setY1(e.target.value)}/></Field></Row><div style={{height:'12px'}}/><Row><Field label="x₂"><Input value={x2} onChange={e=>setX2(e.target.value)}/></Field><Field label="y₂"><Input value={y2} onChange={e=>setY2(e.target.value)}/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate Slope</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="x₁"><Input value={x1} onChange={e=>setX1(e.target.value)}/></Field><Field label="y₁"><Input value={y1} onChange={e=>setY1(e.target.value)}/></Field></Row><div style={{height:'12px'}}/><Row><Field label="x₂"><Input value={x2} onChange={e=>setX2(e.target.value)}/></Field><Field label="y₂"><Input value={y2} onChange={e=>setY2(e.target.value)}/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate Slope</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function LineEquation() {
   const [x1,setX1]=useState(''); const [y1,setY1]=useState(''); const [x2,setX2]=useState(''); const [y2,setY2]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const a=parseFloat(x1),b=parseFloat(y1),c=parseFloat(x2),d=parseFloat(y2); if([a,b,c,d].some(isNaN)) return; if(c===a) return setRes(`Vertical line: x = ${a}`); const m=(d-b)/(c-a); const intercept=b-m*a; setRes(`Slope-intercept: y = ${parseFloat(m.toFixed(6))}x ${intercept>=0?'+':''} ${parseFloat(intercept.toFixed(6))}\nStandard form: ${Math.round((d-b)*1000)}x - ${Math.round((c-a)*1000)}y ${intercept>=0?'+':'-'} ${Math.abs(Math.round(intercept*(c-a)*1000))} = 0`); };
-  return <div><Row><Field label="x₁"><Input value={x1} onChange={e=>setX1(e.target.value)}/></Field><Field label="y₁"><Input value={y1} onChange={e=>setY1(e.target.value)}/></Field></Row><div style={{height:'12px'}}/><Row><Field label="x₂"><Input value={x2} onChange={e=>setX2(e.target.value)}/></Field><Field label="y₂"><Input value={y2} onChange={e=>setY2(e.target.value)}/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Find Equation</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="x₁"><Input value={x1} onChange={e=>setX1(e.target.value)}/></Field><Field label="y₁"><Input value={y1} onChange={e=>setY1(e.target.value)}/></Field></Row><div style={{height:'12px'}}/><Row><Field label="x₂"><Input value={x2} onChange={e=>setX2(e.target.value)}/></Field><Field label="y₂"><Input value={y2} onChange={e=>setY2(e.target.value)}/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Find Equation</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function Trigonometry() {
   const [angle,setAngle]=useState(''); const [unit,setUnit]=useState('deg'); const [res,setRes]=useState(null);
   const calc = () => { const v=parseFloat(angle); if(isNaN(v)) return; const rad=unit==='deg'?v*Math.PI/180:v; const s=Math.sin(rad),co=Math.cos(rad),t=Math.tan(rad); const fmt=x=>Math.abs(x)>1e10?'undefined':parseFloat(x.toFixed(8)); setRes(`sin = ${fmt(s)}\ncos = ${fmt(co)}\ntan = ${fmt(t)}\ncosec = ${fmt(1/s)}\nsec = ${fmt(1/co)}\ncot = ${fmt(1/t)}`); };
-  return <div><Row><Field label="Angle"><Input value={angle} onChange={e=>setAngle(e.target.value)} placeholder="e.g. 30"/></Field><Field label="Unit"><div style={{display:'flex',gap:'8px',marginTop:'4px'}}><Btn onClick={()=>setUnit('deg')} variant={unit==='deg'?'primary':'secondary'}>Degrees</Btn><Btn onClick={()=>setUnit('rad')} variant={unit==='rad'?'primary':'secondary'}>Radians</Btn></div></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate All Ratios</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="Angle"><Input value={angle} onChange={e=>setAngle(e.target.value)} placeholder="e.g. 30"/></Field><Field label="Unit"><div style={{display:'flex',gap:'8px',marginTop:'4px'}}><Btn onClick={()=>setUnit('deg')} variant={unit==='deg'?'primary':'secondary'}>Degrees</Btn><Btn onClick={()=>setUnit('rad')} variant={unit==='rad'?'primary':'secondary'}>Radians</Btn></div></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate All Ratios</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function TriangleOps() {
   const [a,setA]=useState(''); const [b,setB]=useState(''); const [c,setC]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const x=parseFloat(a),y=parseFloat(b),z=parseFloat(c); if([x,y,z].some(isNaN)||[x,y,z].some(v=>v<=0)) return; if(x+y<=z||x+z<=y||y+z<=x) return setRes('Not a valid triangle (violates triangle inequality)'); const s=(x+y+z)/2; const area=Math.sqrt(s*(s-x)*(s-y)*(s-z)); const A=Math.acos((y*y+z*z-x*x)/(2*y*z))*180/Math.PI; const B=Math.acos((x*x+z*z-y*y)/(2*x*z))*180/Math.PI; const C=180-A-B; const type=x===y&&y===z?'Equilateral':x===y||y===z||x===z?'Isosceles':'Scalene'; const angType=A===90||B===90||C===90?'Right':A>90||B>90||C>90?'Obtuse':'Acute'; setRes(`Perimeter = ${x+y+z}\nArea = ${parseFloat(area.toFixed(6))} (Heron's formula)\nAngle A = ${parseFloat(A.toFixed(4))}°\nAngle B = ${parseFloat(B.toFixed(4))}°\nAngle C = ${parseFloat(C.toFixed(4))}°\nType: ${type}, ${angType}`); };
-  return <div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'12px'}}><Field label="Side a"><Input value={a} onChange={e=>setA(e.target.value)}/></Field><Field label="Side b"><Input value={b} onChange={e=>setB(e.target.value)}/></Field><Field label="Side c"><Input value={c} onChange={e=>setC(e.target.value)}/></Field></div><Btn style={{marginTop:'12px'}} onClick={calc}>Analyze Triangle</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'12px'}}><Field label="Side a"><Input value={a} onChange={e=>setA(e.target.value)}/></Field><Field label="Side b"><Input value={b} onChange={e=>setB(e.target.value)}/></Field><Field label="Side c"><Input value={c} onChange={e=>setC(e.target.value)}/></Field></div><Btn style={{marginTop:'12px'}} onClick={calc}>Analyze Triangle</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function DegRad() {
   const [val,setVal]=useState(''); const [mode,setMode]=useState('d2r'); const [res,setRes]=useState(null);
@@ -560,12 +568,12 @@ function ComplexOps() {
   const [r1,setR1]=useState(''); const [i1,setI1]=useState(''); const [r2,setR2]=useState(''); const [i2,setI2]=useState(''); const [op,setOp]=useState('+'); const [res,setRes]=useState(null);
   const fmt=(r,i)=>{const ir=parseFloat(r.toFixed(6)),ii=parseFloat(i.toFixed(6));return ii===0?`${ir}`:ir===0?`${ii}i`:`${ir} ${ii>=0?'+':'-'} ${Math.abs(ii)}i`;};
   const calc = () => { const a=parseFloat(r1),b=parseFloat(i1),c=parseFloat(r2),d=parseFloat(i2); if([a,b,c,d].some(isNaN)) return; let rr,ri; if(op==='+'){rr=a+c;ri=b+d;}else if(op==='-'){rr=a-c;ri=b-d;}else if(op==='×'){rr=a*c-b*d;ri=a*d+b*c;}else{const denom=c*c+d*d;if(denom===0)return setRes('Cannot divide by zero');rr=(a*c+b*d)/denom;ri=(b*c-a*d)/denom;} const mag=Math.sqrt(rr**2+ri**2); setRes(`Result: ${fmt(rr,ri)}\nModulus: ${parseFloat(mag.toFixed(8))}`); };
-  return <div><div style={{background:'#0a0f1e',borderRadius:'8px',padding:'10px 14px',marginBottom:'12px',color:'#94a3b8',fontSize:'0.8rem',fontFamily:'DM Sans'}}>Enter real and imaginary parts for each complex number (a + bi)</div><Row><Field label="Real part (a)"><Input value={r1} onChange={e=>setR1(e.target.value)} placeholder="3"/></Field><Field label="Imaginary part (b)"><Input value={i1} onChange={e=>setI1(e.target.value)} placeholder="4"/></Field></Row><div style={{margin:'12px 0'}}><Label>Operation</Label><div style={{display:'flex',gap:'8px'}}>{['+','-','×','÷'].map(o=><Btn key={o} onClick={()=>setOp(o)} variant={op===o?'primary':'secondary'}>{o}</Btn>)}</div></div><Row><Field label="Real part (c)"><Input value={r2} onChange={e=>setR2(e.target.value)} placeholder="1"/></Field><Field label="Imaginary part (d)"><Input value={i2} onChange={e=>setI2(e.target.value)} placeholder="-2"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><div style={{background:'#001e2a',borderRadius:'8px',padding:'10px 14px',marginBottom:'12px',color:'rgba(250,255,216,0.65)',fontSize:'0.8rem',fontFamily:'DM Sans'}}>Enter real and imaginary parts for each complex number (a + bi)</div><Row><Field label="Real part (a)"><Input value={r1} onChange={e=>setR1(e.target.value)} placeholder="3"/></Field><Field label="Imaginary part (b)"><Input value={i1} onChange={e=>setI1(e.target.value)} placeholder="4"/></Field></Row><div style={{margin:'12px 0'}}><Label>Operation</Label><div style={{display:'flex',gap:'8px'}}>{['+','-','×','÷'].map(o=><Btn key={o} onClick={()=>setOp(o)} variant={op===o?'primary':'secondary'}>{o}</Btn>)}</div></div><Row><Field label="Real part (c)"><Input value={r2} onChange={e=>setR2(e.target.value)} placeholder="1"/></Field><Field label="Imaginary part (d)"><Input value={i2} onChange={e=>setI2(e.target.value)} placeholder="-2"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function Permutation() {
   const [n,setN]=useState(''); const [r,setR]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const N=parseInt(n),R=parseInt(r); if(isNaN(N)||isNaN(R)||R<0||R>N||N>20) return setRes('Invalid (ensure 0 ≤ r ≤ n ≤ 20)'); const npr=factorial(N)/factorial(N-R); const ncr=factorial(N)/(factorial(R)*factorial(N-R)); setRes(`nPr = P(${N},${R}) = ${N}!/(${N}-${R})! = ${npr}\nnCr = C(${N},${R}) = ${N}!/(${R}!×${N-R}!) = ${ncr}`); };
-  return <div><Row><Field label="n"><Input value={n} onChange={e=>setN(e.target.value)} placeholder="e.g. 5"/></Field><Field label="r"><Input value={r} onChange={e=>setR(e.target.value)} placeholder="e.g. 2"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate nPr &amp; nCr</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="n"><Input value={n} onChange={e=>setN(e.target.value)} placeholder="e.g. 5"/></Field><Field label="r"><Input value={r} onChange={e=>setR(e.target.value)} placeholder="e.g. 2"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate nPr &amp; nCr</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function Fibonacci() {
   const [n,setN]=useState(''); const [res,setRes]=useState(null);
@@ -575,7 +583,7 @@ function Fibonacci() {
 function AngleBetweenLines() {
   const [m1,setM1]=useState(''); const [m2,setM2]=useState(''); const [res,setRes]=useState(null);
   const calc = () => { const a=parseFloat(m1),b=parseFloat(m2); if(isNaN(a)||isNaN(b)) return; if(1+a*b===0) return setRes('Lines are perpendicular (90°)'); const tan=Math.abs((a-b)/(1+a*b)); const angle=Math.atan(tan)*180/Math.PI; setRes(`tan(θ) = |m1-m2|/|1+m1×m2| = ${parseFloat(tan.toFixed(6))}\nAcute angle = ${parseFloat(angle.toFixed(4))}°\nObtuse angle = ${parseFloat((180-angle).toFixed(4))}°`); };
-  return <div><Row><Field label="Slope m1"><Input value={m1} onChange={e=>setM1(e.target.value)} placeholder="e.g. 2"/></Field><Field label="Slope m2"><Input value={m2} onChange={e=>setM2(e.target.value)} placeholder="e.g. -1"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate Angle</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  return <div><Row><Field label="Slope m1"><Input value={m1} onChange={e=>setM1(e.target.value)} placeholder="e.g. 2"/></Field><Field label="Slope m2"><Input value={m2} onChange={e=>setM2(e.target.value)} placeholder="e.g. -1"/></Field></Row><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate Angle</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function MatrixOps() {
   const empty2 = ()=>[[0,0],[0,0]];
@@ -585,21 +593,21 @@ function MatrixOps() {
   const updateB=(i,j,v)=>setB(p=>{const n=[...p.map(r=>[...r])];n[i][j]=parseFloat(v)||0;return n;});
   const fmt=M=>M.map(r=>r.map(v=>parseFloat(v.toFixed(4))).join('\t')).join('\n');
   const calc = () => { try { if(op==='add') setRes('A + B =\n'+fmt(matAdd(A,B))); else if(op==='sub') setRes('A - B =\n'+fmt(matSub(A,B))); else if(op==='mul') setRes('A × B =\n'+fmt(matMul(A,B))); else if(op==='trans') setRes('Transpose of A =\n'+fmt(matTranspose(A))); else if(op==='det') setRes(size===2?`det(A) = ${det2(A)}`:`det(A) = ${det3(A)}`); else if(op==='inv') { if(size!==2) return setRes('Inverse only supported for 2×2 here'); const d=det2(A); if(d===0)return setRes('Matrix is singular, no inverse'); setRes('Inverse of A =\n'+fmt(inv2(A))); } } catch(e) { setRes('Error: '+e.message); } };
-  const MatInput = ({mat,update}) => <div style={{display:'grid',gridTemplateColumns:`repeat(${size},1fr)`,gap:'4px'}}>{mat.map((row,i)=>row.map((v,j)=><input key={`${i}${j}`} value={v} onChange={e=>update(i,j,e.target.value)} style={{background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'4px',padding:'6px',color:'#e2e8f0',fontFamily:'JetBrains Mono',fontSize:'0.85rem',textAlign:'center',width:'100%',boxSizing:'border-box'}}/>))}</div>;
-  return <div><div style={{display:'flex',alignItems:'center',gap:'12px',marginBottom:'12px'}}><Label>Size:</Label>{[2,3].map(s=><Btn key={s} onClick={()=>resize(s)} variant={size===s?'primary':'secondary'}>{s}×{s}</Btn>)}</div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px',marginBottom:'12px'}}><div><Label>Matrix A</Label><MatInput mat={A} update={updateA}/></div>{!['trans','det','inv'].includes(op)&&<div><Label>Matrix B</Label><MatInput mat={B} update={updateB}/></div>}</div><div style={{display:'flex',gap:'8px',flexWrap:'wrap',marginBottom:'12px'}}>{[['add','A+B'],['sub','A-B'],['mul','A×B'],['trans','Transpose A'],['det','Det(A)'],['inv','Inverse A']].map(([k,l])=><Btn key={k} onClick={()=>setOp(k)} variant={op===k?'primary':'secondary'}>{l}</Btn>)}</div><Btn onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#0a0f1e',border:'1px solid #f59e0b33',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#f8fafc',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
+  const MatInput = ({mat,update}) => <div style={{display:'grid',gridTemplateColumns:`repeat(${size},1fr)`,gap:'4px'}}>{mat.map((row,i)=>row.map((v,j)=><input key={`${i}${j}`} value={v} onChange={e=>update(i,j,e.target.value)} style={{background:'#002535',border:'1px solid #226ce040',borderRadius:'4px',padding:'6px',color:'#faffd8',fontFamily:'JetBrains Mono',fontSize:'0.85rem',textAlign:'center',width:'100%',boxSizing:'border-box'}}/>))}</div>;
+  return <div><div style={{display:'flex',alignItems:'center',gap:'12px',marginBottom:'12px'}}><Label>Size:</Label>{[2,3].map(s=><Btn key={s} onClick={()=>resize(s)} variant={size===s?'primary':'secondary'}>{s}×{s}</Btn>)}</div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px',marginBottom:'12px'}}><div><Label>Matrix A</Label><MatInput mat={A} update={updateA}/></div>{!['trans','det','inv'].includes(op)&&<div><Label>Matrix B</Label><MatInput mat={B} update={updateB}/></div>}</div><div style={{display:'flex',gap:'8px',flexWrap:'wrap',marginBottom:'12px'}}>{[['add','A+B'],['sub','A-B'],['mul','A×B'],['trans','Transpose A'],['det','Det(A)'],['inv','Inverse A']].map(([k,l])=><Btn key={k} onClick={()=>setOp(k)} variant={op===k?'primary':'secondary'}>{l}</Btn>)}</div><Btn onClick={calc}>Calculate</Btn>{res&&<div style={{marginTop:'16px',background:'#001e2a',border:'1px solid #ecffb033',borderRadius:'10px',padding:'16px 20px'}}><pre style={{fontFamily:'JetBrains Mono',color:'#faffd8',fontSize:'0.9rem',margin:0,lineHeight:'1.9'}}>{res}</pre></div>}</div>;
 }
 function Determinant() {
   const [size,setSize]=useState(2); const [mat,setMat]=useState([[0,0],[0,0]]); const [res,setRes]=useState(null);
   const resize=s=>{setSize(s);setMat(Array.from({length:s},()=>Array(s).fill(0)));setRes(null);};
   const update=(i,j,v)=>setMat(p=>{const n=[...p.map(r=>[...r])];n[i][j]=parseFloat(v)||0;return n;});
   const calc=()=>{setRes(size===2?`det = ${det2(mat)}`:`det = ${det3(mat)}`);};
-  return <div><div style={{display:'flex',gap:'8px',marginBottom:'12px'}}>{[2,3].map(s=><Btn key={s} onClick={()=>resize(s)} variant={size===s?'primary':'secondary'}>{s}×{s}</Btn>)}</div><div style={{display:'grid',gridTemplateColumns:`repeat(${size},1fr)`,gap:'6px',marginBottom:'12px'}}>{mat.map((r,i)=>r.map((v,j)=><input key={`${i}${j}`} value={v} onChange={e=>update(i,j,e.target.value)} style={{background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'4px',padding:'8px',color:'#e2e8f0',fontFamily:'JetBrains Mono',fontSize:'0.9rem',textAlign:'center',width:'100%',boxSizing:'border-box'}}/>))}</div><Btn onClick={calc}>Calculate Determinant</Btn><Result>{res}</Result></div>;
+  return <div><div style={{display:'flex',gap:'8px',marginBottom:'12px'}}>{[2,3].map(s=><Btn key={s} onClick={()=>resize(s)} variant={size===s?'primary':'secondary'}>{s}×{s}</Btn>)}</div><div style={{display:'grid',gridTemplateColumns:`repeat(${size},1fr)`,gap:'6px',marginBottom:'12px'}}>{mat.map((r,i)=>r.map((v,j)=><input key={`${i}${j}`} value={v} onChange={e=>update(i,j,e.target.value)} style={{background:'#002535',border:'1px solid #226ce040',borderRadius:'4px',padding:'8px',color:'#faffd8',fontFamily:'JetBrains Mono',fontSize:'0.9rem',textAlign:'center',width:'100%',boxSizing:'border-box'}}/>))}</div><Btn onClick={calc}>Calculate Determinant</Btn><Result>{res}</Result></div>;
 }
 function VectorOps() {
   const [op,setOp]=useState('add'); const [a,setA]=useState(['','','']); const [b,setB]=useState(['','','']); const [res,setRes]=useState(null);
   const va=a.map(Number); const vb=b.map(Number);
   const calc=()=>{ if(va.some(isNaN)||vb.some(isNaN)) return; const [ax,ay,az]=va, [bx,by,bz]=vb; if(op==='add') setRes(`(${ax+bx}, ${ay+by}, ${az+bz})`); else if(op==='sub') setRes(`(${ax-bx}, ${ay-by}, ${az-bz})`); else if(op==='dot') setRes(`A·B = ${ax*bx+ay*by+az*bz}`); else if(op==='cross') setRes(`A×B = (${ay*bz-az*by}, ${az*bx-ax*bz}, ${ax*by-ay*bx})`); else if(op==='magA') setRes(`|A| = ${parseFloat(Math.sqrt(ax**2+ay**2+az**2).toFixed(8))}`); else if(op==='magB') setRes(`|B| = ${parseFloat(Math.sqrt(bx**2+by**2+bz**2).toFixed(8))}`); };
-  return <div><Row><div><Label>Vector A (x, y, z)</Label><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'6px'}}>{[0,1,2].map(i=><input key={i} value={a[i]} placeholder={['x','y','z'][i]} onChange={e=>setA(p=>{const n=[...p];n[i]=e.target.value;return n;})} style={{background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'6px',padding:'8px',color:'#e2e8f0',fontFamily:'JetBrains Mono',fontSize:'0.85rem',textAlign:'center',boxSizing:'border-box'}}/>)}</div></div><div><Label>Vector B (x, y, z)</Label><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'6px'}}>{[0,1,2].map(i=><input key={i} value={b[i]} placeholder={['x','y','z'][i]} onChange={e=>setB(p=>{const n=[...p];n[i]=e.target.value;return n;})} style={{background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'6px',padding:'8px',color:'#e2e8f0',fontFamily:'JetBrains Mono',fontSize:'0.85rem',textAlign:'center',boxSizing:'border-box'}}/>)}</div></div></Row><div style={{display:'flex',gap:'8px',flexWrap:'wrap',marginTop:'12px'}}>{[['add','A+B'],['sub','A-B'],['dot','Dot Product'],['cross','Cross Product'],['magA','|A|'],['magB','|B|']].map(([k,l])=><Btn key={k} onClick={()=>setOp(k)} variant={op===k?'primary':'secondary'}>{l}</Btn>)}</div><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn><Result>{res}</Result></div>;
+  return <div><Row><div><Label>Vector A (x, y, z)</Label><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'6px'}}>{[0,1,2].map(i=><input key={i} value={a[i]} placeholder={['x','y','z'][i]} onChange={e=>setA(p=>{const n=[...p];n[i]=e.target.value;return n;})} style={{background:'#002535',border:'1px solid #226ce040',borderRadius:'6px',padding:'8px',color:'#faffd8',fontFamily:'JetBrains Mono',fontSize:'0.85rem',textAlign:'center',boxSizing:'border-box'}}/>)}</div></div><div><Label>Vector B (x, y, z)</Label><div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'6px'}}>{[0,1,2].map(i=><input key={i} value={b[i]} placeholder={['x','y','z'][i]} onChange={e=>setB(p=>{const n=[...p];n[i]=e.target.value;return n;})} style={{background:'#002535',border:'1px solid #226ce040',borderRadius:'6px',padding:'8px',color:'#faffd8',fontFamily:'JetBrains Mono',fontSize:'0.85rem',textAlign:'center',boxSizing:'border-box'}}/>)}</div></div></Row><div style={{display:'flex',gap:'8px',flexWrap:'wrap',marginTop:'12px'}}>{[['add','A+B'],['sub','A-B'],['dot','Dot Product'],['cross','Cross Product'],['magA','|A|'],['magB','|B|']].map(([k,l])=><Btn key={k} onClick={()=>setOp(k)} variant={op===k?'primary':'secondary'}>{l}</Btn>)}</div><Btn style={{marginTop:'12px'}} onClick={calc}>Calculate</Btn><Result>{res}</Result></div>;
 }
 function DecBin() {
   const [val,setVal]=useState(''); const [mode,setMode]=useState('d2b'); const [res,setRes]=useState(null);
@@ -626,7 +634,7 @@ const allTopics = categories.flatMap(c=>c.topics.map(t=>({...t,category:c.name})
 
 // ─── NOTES DATA ──────────────────────────────────────────────────────────────
 const notesData = [
-  { subject:'Mathematics', icon:'📐', color:'#f59e0b', classes:[{ label:'Class XI', chapters:[{name:'Binomial Theorem',fileId:'1FUMQ94OH29HMWwBneNXpoDndyb2XVpTw'},{name:'Complex Numbers',fileId:'1GmFtPHrZv8fWRc7RJEhGlOST9ocuq-Mf'},{name:'Ellipse',fileId:'1FtMsYNxMQwj8hmON8P1a3F6vLYf3iB6J'},{name:'Hyperbola',fileId:'1FxEAK9Sg4YbPW6CdKlSwI6BSlopiEcyu'},{name:'Limits',fileId:'1GElWoJrfWiyCa_wO-wE17iyu2GeXmyuI'},{name:'Mathematical Induction',fileId:'1G5sNgiRmugmQybXQ3uNHcEmp4J918cu3'},{name:'Parabola',fileId:'1FkazuuTXZGy0yYBhk4Rlzcdz0-taBjoQ'},{name:'Permutations & Combinations',fileId:'1FbsacvYGFZBcl2m_LAqxbpsZfDOMUd0o'},{name:'Probability',fileId:'1GeirPiUp3y21il5AzLUTE7z3I3MD4ccp'},{name:'Relations & Functions',fileId:'1GBq_1DMlPF60f6Y3KX51KvUKVpDxllEn'},{name:'Sequence & Series',fileId:'1G7ZMAQSu_HKF7Kiq-E48i-3xh0TZ5ljT'},{name:'Sets',fileId:'1G9jqk2bt7ngNBtWvFVIol-uQ8M0subOT'},{name:'Solution of Triangles',fileId:'1FO8zFLobOUNyshyFqKwON-z5uAGxSSs9'},{name:'Statistics',fileId:'1GIPMEsj3KkkMcgtnsCx2FeFqJSO1x4n6'},{name:'Straight Line',fileId:'1FULq4Xx3RCmSFjuJA4kqrHt-ybvMGovT'},{name:'Trigonometry',fileId:'1FNodhR7gYhz1JymKFHDyeRhJ-3PIzUPV'}] },{ label:'Class XII', chapters:[{name:'3D Geometry',fileId:'1YJScKFMcfdArnKLfx6-B5pdgmRIvx0ZP'},{name:'Application Of Derivative',fileId:'1XkAQm1bKynO9mXgMNmpbL_KniZf0Rvtb'},{name:'Area Under Curve',fileId:'1Y-J-QcS_Wlwyt9W4czGIeoENBVrU7EvR'},{name:'Continuity',fileId:'1Xf6kdiCNGZjI_zsVXiMyjGsXwMVXGGVN'},{name:'Differential Equation',fileId:'1Y3A4365zkvse0a8Z1yQ0bUSoUKsgs1_O'},{name:'Definite Integration',fileId:'1XszHh3jUnUns_dqjJW6GR8-8pnfeyuA1'},{name:'Differentiability',fileId:'1XgrWopyGg6VvrVCWV7GXbkj_2nYhxr2Q'},{name:'Indefinite Integration',fileId:'1XrC8Y92I6kcCXGlYu3zhkIlif9I7z11U'},{name:'Inverse Trigonometric Functions',fileId:'1Wqj3SEF8vXf4nW8W1e3cP6EyxgFQGkgQ'},{name:'Limits',fileId:'1X4WheGGFVZusih9a8Yc31SWz0NwfqqSb'},{name:'Matrices and Determinants',fileId:'1WqZew0pGiIKAexfK7zGTkcBDXmEOcm37'},{name:'Probability',fileId:'1YWiG9AqBHP78p0aHk8CBUt4RQd8Mab_h'},{name:'Vectors',fileId:'1Y45UKqr5Fa70fmlp6XUx2_YD404e_2oE'}] }] },
+  { subject:'Mathematics', icon:'📐', color:'#ecffb0', classes:[{ label:'Class XI', chapters:[{name:'Binomial Theorem',fileId:'1FUMQ94OH29HMWwBneNXpoDndyb2XVpTw'},{name:'Complex Numbers',fileId:'1GmFtPHrZv8fWRc7RJEhGlOST9ocuq-Mf'},{name:'Ellipse',fileId:'1FtMsYNxMQwj8hmON8P1a3F6vLYf3iB6J'},{name:'Hyperbola',fileId:'1FxEAK9Sg4YbPW6CdKlSwI6BSlopiEcyu'},{name:'Limits',fileId:'1GElWoJrfWiyCa_wO-wE17iyu2GeXmyuI'},{name:'Mathematical Induction',fileId:'1G5sNgiRmugmQybXQ3uNHcEmp4J918cu3'},{name:'Parabola',fileId:'1FkazuuTXZGy0yYBhk4Rlzcdz0-taBjoQ'},{name:'Permutations & Combinations',fileId:'1FbsacvYGFZBcl2m_LAqxbpsZfDOMUd0o'},{name:'Probability',fileId:'1GeirPiUp3y21il5AzLUTE7z3I3MD4ccp'},{name:'Relations & Functions',fileId:'1GBq_1DMlPF60f6Y3KX51KvUKVpDxllEn'},{name:'Sequence & Series',fileId:'1G7ZMAQSu_HKF7Kiq-E48i-3xh0TZ5ljT'},{name:'Sets',fileId:'1G9jqk2bt7ngNBtWvFVIol-uQ8M0subOT'},{name:'Solution of Triangles',fileId:'1FO8zFLobOUNyshyFqKwON-z5uAGxSSs9'},{name:'Statistics',fileId:'1GIPMEsj3KkkMcgtnsCx2FeFqJSO1x4n6'},{name:'Straight Line',fileId:'1FULq4Xx3RCmSFjuJA4kqrHt-ybvMGovT'},{name:'Trigonometry',fileId:'1FNodhR7gYhz1JymKFHDyeRhJ-3PIzUPV'}] },{ label:'Class XII', chapters:[{name:'3D Geometry',fileId:'1YJScKFMcfdArnKLfx6-B5pdgmRIvx0ZP'},{name:'Application Of Derivative',fileId:'1XkAQm1bKynO9mXgMNmpbL_KniZf0Rvtb'},{name:'Area Under Curve',fileId:'1Y-J-QcS_Wlwyt9W4czGIeoENBVrU7EvR'},{name:'Continuity',fileId:'1Xf6kdiCNGZjI_zsVXiMyjGsXwMVXGGVN'},{name:'Differential Equation',fileId:'1Y3A4365zkvse0a8Z1yQ0bUSoUKsgs1_O'},{name:'Definite Integration',fileId:'1XszHh3jUnUns_dqjJW6GR8-8pnfeyuA1'},{name:'Differentiability',fileId:'1XgrWopyGg6VvrVCWV7GXbkj_2nYhxr2Q'},{name:'Indefinite Integration',fileId:'1XrC8Y92I6kcCXGlYu3zhkIlif9I7z11U'},{name:'Inverse Trigonometric Functions',fileId:'1Wqj3SEF8vXf4nW8W1e3cP6EyxgFQGkgQ'},{name:'Limits',fileId:'1X4WheGGFVZusih9a8Yc31SWz0NwfqqSb'},{name:'Matrices and Determinants',fileId:'1WqZew0pGiIKAexfK7zGTkcBDXmEOcm37'},{name:'Probability',fileId:'1YWiG9AqBHP78p0aHk8CBUt4RQd8Mab_h'},{name:'Vectors',fileId:'1Y45UKqr5Fa70fmlp6XUx2_YD404e_2oE'}] }] },
   { subject:'Physics', icon:'⚡', color:'#38bdf8', classes:[{ label:'Class XI', chapters:[{name:'Circular Motion',fileId:'1rgkhe9VLvTE9afrUUDGNKHPvfMZGtp38'},{name:'Centre of Mass - 1',fileId:'1w5o21k4Ke1npFzpTj2JWBIwW3KFvlw4j'},{name:'Centre of Mass - 2',fileId:'1CseKMB7lWiFleXNIR2M2Z9qZfjvNZi5b'},{name:'Fluid Mechanics',fileId:'1eOsD2--_6ZEFftjP7n1ydefXImDudLHL'},{name:'Friction',fileId:'1g-ynLN8uo6agu24yiIEzFJlFyVWotP8K'},{name:'KTG & Thermodynamics',fileId:'1Q15QZECU_mAxj2TJAKhA0pm4PJ-UqBMD'},{name:'Mathematical Tools',fileId:'1CdAsDXQpgD29lZAOOhLtJrOUFEV5XYgl'},{name:'Newtons Laws of Motion',fileId:'1tPHvhwELcb4BfPs_9gMa8GtQgA-AisXw'},{name:'Projectile Motion',fileId:'1nALfeb0vYGoJoSYPfTpEhPTsGOZ0dlro'},{name:'Properties of Matter',fileId:'1kesK-Fwy6Z2UYGDcHb5TzPAuB_JpSI4l'},{name:'Rigid Body Dynamics',fileId:'1CGJHA703jguqp5xyZQzWtFF13x6B-Vfl'},{name:'Rectilinear Motion',fileId:'1JZe3M5Ww0yPxYZ-K6K7UApopIxF-PU8m'},{name:'Relative Motion',fileId:'14veIQCGK5NXJGqXDYVBN3Op897g69arY'},{name:'Simple Harmonic Motion - 1',fileId:'1CQZGKeRYNpx0FNrllSJMifyej_sMgOyq'},{name:'Simple Harmonic Motion - 2',fileId:'1COlGGndK6raurAiAOb7K-GSSHz5dxDpN'},{name:'Sound Waves',fileId:'1xX_1G1Bl65hgcAk1NulydBEeQtNPrWTI'},{name:'String Waves',fileId:'1hB2dFm0KFqHU4Nkz_oCs-rZFhkZ_y02K'},{name:'Surface Tension',fileId:'1hIpeCCU56JDoX5bFwUVWPKwFM6LRqZHl'},{name:'Thermal Physics and Calorimetry',fileId:'1DzoDxN5zczhe4KX3UAIiuS98o0ooFnA_'},{name:'Thermodynamics',fileId:'1VFNGA81BkZRrixQvKdFBTWNsUtIk7xPk'},{name:'Viscosity',fileId:'1aoJd16VBydMXFppjqrgcOLoA84uHzKI2'},{name:'Work Power and Energy',fileId:'1zPHkHDRg9h2ue6MTAXm9ltd0YfNg6Vlj'}] },{ label:'Class XII', chapters:[{name:'Alternating Current',fileId:'1g0ab8Upv6IgNLjS-Eesx4icL32kYSSt_'},{name:'Capacitance',fileId:'1eQz5-yqqCjbMc2m70JS89kQUue4nPWCD'},{name:'Current Electricity',fileId:'1eNOiTAjamxQD3lAzTufE0ac6J9wKwfZk'},{name:'Electromagnetic Induction',fileId:'1gEK1w6puiidLHFM06luv0NIGtmaRh7GY'},{name:'Electromagnetic Wave',fileId:'1g1LaIyC_dcFS5GSZdrnAxPnnJxMcoMMG'},{name:'Geometrical Optics',fileId:'1e_TXMGgKycfer_PYcTfghaEnUDAze8eK'},{name:'Gravitation',fileId:'1eLMe_b2UC5FV-wZc3Il9Z6VHT0ja2Ug7'},{name:'Heat Transfer',fileId:'1eQsW5yIdOhYaKB47Gkm3vaQra0h7sYv4'},{name:'Magnetic Effects of Current',fileId:'1g9xws1Oqu9__pYfprbKRv60qUMtijvay'},{name:'Magnetism',fileId:'1gCpmGr_pBH9D9hnBj5VJESDsLIlqEKX6'},{name:'Modern Physics',fileId:'1fjb6FQ8NI9wtI9m4BYpb7CI1iNZtCNSk'},{name:'Nuclear Physics',fileId:'1fmGqSh2OL6VSXqkmK7vHz3416P3vhymQ'},{name:'Semiconductors',fileId:'1ftw-ha-NXzfXdaTILq8pWMyBO0UjcRCe'},{name:'Wave Optics',fileId:'1g7KUCqXE0EEOiqYPJ33wMvtgjkNt-hjZ'}] }] },
   { subject:'Chemistry', icon:'🧪', color:'#34d399', classes:[{ label:'Class XI', chapters:[{name:'Atomic Structure',fileId:'1DguvxutFCTOrGZA58sq4zRvx2carUAmB'},{name:'Chemical Bonding',fileId:'1EanJrn4j0OGNZ9_upBj7CnO4R5RNf3Gk'},{name:'Chemical Equilibrium',fileId:'1H2Q64___9GXO0--raIBDnoeE1kAwR3LX'},{name:'Chemistry in Everyday Life',fileId:'1OA7qk7RBuj2_1eoECL90qwhJZH6wDTz9'},{name:'Gaseous State',fileId:'1Gn8we9acGgn4IJ93rbRH7toiM0ElYmR5'},{name:'GOC',fileId:'1Gq8WZL3ww9pV4dBEjyZ3bbO-law9RBcg'},{name:'Hydrocarbons',fileId:'1DjeUPNX3ZmkooHeas-Tn1AQlPnVb6bn1'},{name:'Hydrogen',fileId:'1GrRB2ojUhQ_PEwl_eMx0by74NwYRLJqW'},{name:'Ionic Equilibrium',fileId:'1H3ISfgiPWrU8mP_qgGIiLvCGsOTsvpVA'},{name:'p-block Elements',fileId:'1H9zKqO_b5jhGkezPAQYHSBEbWhQoe2vU'},{name:'Periodic Table',fileId:'1wSEyyUv6Rp0NbGW-uzZnNDGRy3YLCcal'},{name:'Redox Reactions',fileId:'1GnDxYZbqcRI91NR4BeDzkdYHpwCahqmY'},{name:'s-block Elements',fileId:'1H7s388cX5L5O7ddTmdOH1vf-o0HqsmHI'},{name:'Thermodynamics',fileId:'1H-XY874BTBaapfQMf1Mpo0HQB8f9YbNg'}] },{ label:'Class XII', chapters:[{name:'Alcohol, Phenol & Ether',fileId:'1W92n3ED266KwmcXRkaziZ2vJMu8-7nbJ'},{name:'Aldehyde & Ketone',fileId:'1W9JmUfZxuKr3FlmNj3B2PKRgB0OrbU5y'},{name:'Amines',fileId:'1WGRdXps6PIvKcRbbcnHqN4HRIFcvxB2h'},{name:'Carboxylic Acid & its Derivatives',fileId:'1WBmS0PaH60Rw7PVqMFSaZ55UNbgb41Wp'},{name:'Chemical Kinetics',fileId:'1W7i9bIAfTO3Nb-n_tL1ULrmSpZruyzfU'},{name:'Coodination Compounds',fileId:'1VhjJ8bEquZAXbjb_--gDYBv2puNeInOI'},{name:'Electrochemistry',fileId:'1V_rowiG5wdWS3T85Bx-D3hWNzhrj-aTy'},{name:'Haloalkenes & Haloarenes',fileId:'1VxwmYb5fQ_XsYLTVZhhEkfd9gIJ3UdJW'},{name:'Metallurgy',fileId:'1VG4X0BSD0RyBchQGxSCebO64hybMH0sS'},{name:'P-Block',fileId:'1W6JHPTWqI66e8POHL3GjklPElUQhs4yS'},{name:'Practical Organic Chemistry',fileId:'1WPjYPtxECPKhTEhtg8CAxE92YiN6LzLk'},{name:'Polymers',fileId:'1WjVpRo3XqKcDbJVo5baNjqWFwkhFGAu-'},{name:'Qualitative Analysis',fileId:'1YDmVUJ-FafdAHecQxRQhMn3MUTm6ATx4'},{name:'Solid State',fileId:'1VMHGGoI_EMBuK-fpN9AHYA5DpYA08viH'},{name:'Solutions - 1',fileId:'1VK4Hjz4XJeppUnWYOrkN1JWqTkxUQgvx'},{name:'Solutions - 2',fileId:'1VOOKhIxdUQqgZkG0M9f5C32WuMrMzzK0'},{name:'Transition Elements',fileId:'1VFh0yOz7vvgqxr3NPFyuVHIVAAGfi8IK'}] }] },
 ];
@@ -646,72 +654,72 @@ function NotesSection() {
 
   return (
     <div style={{display:'flex',flex:1,height:'100%',overflow:'hidden',position:'relative'}}>
-      <div style={{width:sidebarOpen?'260px':'0px',minWidth:sidebarOpen?'260px':'0px',background:'#0a0f1e',borderRight:sidebarOpen?'1px solid #1e2d4d':'none',display:'flex',flexDirection:'column',overflow:'hidden',transition:'all 0.25s ease'}}>
-        <div style={{padding:'16px',borderBottom:'1px solid #1e2d4d',minWidth:'260px'}}>
-          <div style={{fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'10px',fontWeight:600}}>Subject</div>
+      <div style={{width:sidebarOpen?'260px':'0px',minWidth:sidebarOpen?'260px':'0px',background:'#001e2a',borderRight:sidebarOpen?'1px solid #003050':'none',display:'flex',flexDirection:'column',overflow:'hidden',transition:'all 0.25s ease'}}>
+        <div style={{padding:'16px',borderBottom:'1px solid #003050',minWidth:'260px'}}>
+          <div style={{fontSize:'0.7rem',color:'rgba(250,255,216,0.35)',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'10px',fontWeight:600}}>Subject</div>
           <div style={{display:'flex',flexDirection:'column',gap:'6px'}}>
             {notesData.map((s,i)=>(
-              <button key={s.subject} onClick={()=>switchSubject(i)} style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 14px',borderRadius:'8px',border:'none',cursor:'pointer',textAlign:'left',background:activeSubject===i?'#1e2d4d':'transparent',borderLeft:activeSubject===i?`3px solid ${s.color}`:'3px solid transparent',transition:'all 0.15s'}}>
+              <button key={s.subject} onClick={()=>switchSubject(i)} style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 14px',borderRadius:'8px',border:'none',cursor:'pointer',textAlign:'left',background:activeSubject===i?'#003050':'transparent',borderLeft:activeSubject===i?`3px solid ${s.color}`:'3px solid transparent',transition:'all 0.15s'}}>
                 <span style={{fontSize:'1.1rem'}}>{s.icon}</span>
-                <span style={{fontFamily:'DM Sans',fontSize:'0.9rem',fontWeight:activeSubject===i?600:400,color:activeSubject===i?'#f8fafc':'#94a3b8'}}>{s.subject}</span>
+                <span style={{fontFamily:'DM Sans',fontSize:'0.9rem',fontWeight:activeSubject===i?600:400,color:activeSubject===i?'#faffd8':'rgba(250,255,216,0.65)'}}>{s.subject}</span>
               </button>
             ))}
           </div>
         </div>
-        <div style={{padding:'12px 16px',borderBottom:'1px solid #1e2d4d',minWidth:'260px'}}>
-          <div style={{fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'8px',fontWeight:600}}>Class</div>
+        <div style={{padding:'12px 16px',borderBottom:'1px solid #003050',minWidth:'260px'}}>
+          <div style={{fontSize:'0.7rem',color:'rgba(250,255,216,0.35)',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'8px',fontWeight:600}}>Class</div>
           <div style={{display:'flex',gap:'8px'}}>
             {subject.classes.map((c,i)=>(
-              <button key={c.label} onClick={()=>switchClass(i)} style={{flex:1,padding:'8px',borderRadius:'8px',border:`1px solid ${activeClass===i?subject.color:'#2d3f6b'}`,cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.82rem',fontWeight:500,background:activeClass===i?subject.color+'22':'transparent',color:activeClass===i?subject.color:'#64748b',transition:'all 0.15s'}}>{c.label}</button>
+              <button key={c.label} onClick={()=>switchClass(i)} style={{flex:1,padding:'8px',borderRadius:'8px',border:`1px solid ${activeClass===i?subject.color:'#226ce040'}`,cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.82rem',fontWeight:500,background:activeClass===i?subject.color+'22':'transparent',color:activeClass===i?subject.color:'rgba(250,255,216,0.45)',transition:'all 0.15s'}}>{c.label}</button>
             ))}
           </div>
         </div>
         <div style={{flex:1,overflowY:'auto',padding:'8px 0',minWidth:'260px'}}>
-          <div style={{padding:'8px 16px 4px',fontSize:'0.7rem',color:'#475569',textTransform:'uppercase',letterSpacing:'0.1em',fontWeight:600}}>Chapters</div>
+          <div style={{padding:'8px 16px 4px',fontSize:'0.7rem',color:'rgba(250,255,216,0.35)',textTransform:'uppercase',letterSpacing:'0.1em',fontWeight:600}}>Chapters</div>
           {classData.chapters.map((ch,i)=>(
-            <button key={ch.name} onClick={()=>{ setActiveChapter(ch); setSidebarOpen(false); }} style={{width:'100%',padding:'9px 16px 9px 20px',background:activeChapter?.name===ch.name?'#1e2d4d':'none',border:'none',cursor:'pointer',textAlign:'left',borderLeft:activeChapter?.name===ch.name?`3px solid ${subject.color}`:'3px solid transparent',transition:'all 0.1s'}}>
+            <button key={ch.name} onClick={()=>{ setActiveChapter(ch); setSidebarOpen(false); }} style={{width:'100%',padding:'9px 16px 9px 20px',background:activeChapter?.name===ch.name?'#003050':'none',border:'none',cursor:'pointer',textAlign:'left',borderLeft:activeChapter?.name===ch.name?`3px solid ${subject.color}`:'3px solid transparent',transition:'all 0.1s'}}>
               <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
                 <span style={{fontSize:'0.7rem',color:subject.color,fontFamily:'JetBrains Mono',minWidth:'18px'}}>{i+1}.</span>
-                <span style={{fontSize:'0.83rem',color:activeChapter?.name===ch.name?'#f8fafc':'#94a3b8',fontWeight:activeChapter?.name===ch.name?500:400,fontFamily:'DM Sans'}}>{ch.name}</span>
+                <span style={{fontSize:'0.83rem',color:activeChapter?.name===ch.name?'#faffd8':'rgba(250,255,216,0.65)',fontWeight:activeChapter?.name===ch.name?500:400,fontFamily:'DM Sans'}}>{ch.name}</span>
               </div>
             </button>
           ))}
         </div>
       </div>
 
-      <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden',background:'#060c18',position:'relative'}}>
-        <button onClick={()=>setSidebarOpen(p=>!p)} title={sidebarOpen?'Collapse':'Open'} style={{position:'absolute',top:'12px',left:'12px',zIndex:20,background:'#1e2d4d',border:'1px solid #2d3f6b',borderRadius:'8px',color:'#94a3b8',width:'34px',height:'34px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',transition:'all 0.15s'}}>
+      <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden',background:'#00171f',position:'relative'}}>
+        <button onClick={()=>setSidebarOpen(p=>!p)} title={sidebarOpen?'Collapse':'Open'} style={{position:'absolute',top:'12px',left:'12px',zIndex:20,background:'#003050',border:'1px solid #226ce040',borderRadius:'8px',color:'rgba(250,255,216,0.65)',width:'34px',height:'34px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',transition:'all 0.15s'}}>
           {sidebarOpen?'◀':'☰'}
         </button>
 
         {activeChapter ? (
           <>
-            <div style={{padding:'16px 32px',borderBottom:'1px solid #1e2d4d',background:'#0a0f1e',display:'flex',alignItems:'center',justifyContent:'center'}}>
+            <div style={{padding:'16px 32px',borderBottom:'1px solid #003050',background:'#001e2a',display:'flex',alignItems:'center',justifyContent:'center'}}>
               <div style={{textAlign:'center'}}>
                 <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',marginBottom:'4px'}}>
                   <span style={{background:subject.color+'22',color:subject.color,borderRadius:'6px',padding:'3px 8px',fontSize:'0.7rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.08em'}}>{subject.subject}</span>
-                  <span style={{color:'#334155',fontSize:'0.8rem'}}>{classData.label}</span>
+                  <span style={{color:'rgba(250,255,216,0.22)',fontSize:'0.8rem'}}>{classData.label}</span>
                 </div>
-                <div style={{fontFamily:'Playfair Display',fontSize:'1.5rem',fontWeight:700,color:'#f8fafc'}}>{activeChapter.name}</div>
+                <div style={{fontFamily:'Playfair Display',fontSize:'1.5rem',fontWeight:700,color:'#faffd8'}}>{activeChapter.name}</div>
               </div>
             </div>
-            <div style={{flex:1,position:'relative',background:'#060c18'}}>
+            <div style={{flex:1,position:'relative',background:'#00171f'}}>
               <iframe src={`https://drive.google.com/file/d/${activeChapter.fileId}/preview`} style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',border:'none',display:'block'}} allow="autoplay" title={activeChapter.name}/>
-              <div style={{position:'absolute',top:0,left:0,right:0,height:'48px',background:'#060c18',zIndex:10,pointerEvents:'all'}}/>
-              <div style={{position:'absolute',bottom:0,left:0,right:0,height:'52px',background:'#060c18',zIndex:10,pointerEvents:'all'}}/>
+              <div style={{position:'absolute',top:0,left:0,right:0,height:'48px',background:'#00171f',zIndex:10,pointerEvents:'all'}}/>
+              <div style={{position:'absolute',bottom:0,left:0,right:0,height:'52px',background:'#00171f',zIndex:10,pointerEvents:'all'}}/>
               <div style={{position:'absolute',bottom:'60px',right:'20px',zIndex:11,fontFamily:'DM Sans',fontSize:'0.7rem',color:'#ffffff18',userSelect:'none',pointerEvents:'none',letterSpacing:'0.05em'}}>© Skillora — All rights reserved</div>
             </div>
           </>
         ) : (
           <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'20px',padding:'40px'}}>
             <div style={{fontSize:'4rem'}}>{subject.icon}</div>
-            <div style={{fontFamily:'Playfair Display',fontSize:'2rem',fontWeight:700,color:'#f8fafc',textAlign:'center'}}>{subject.subject} Notes</div>
-            <div style={{fontFamily:'DM Sans',fontSize:'0.95rem',color:'#475569',textAlign:'center',maxWidth:'400px',lineHeight:'1.8'}}>Select a chapter from the sidebar to view your handwritten notes. All notes are for <strong style={{color:'#94a3b8'}}>JEE {classData.label}</strong>.</div>
+            <div style={{fontFamily:'Playfair Display',fontSize:'2rem',fontWeight:700,color:'#faffd8',textAlign:'center'}}>{subject.subject} Notes</div>
+            <div style={{fontFamily:'DM Sans',fontSize:'0.95rem',color:'rgba(250,255,216,0.35)',textAlign:'center',maxWidth:'400px',lineHeight:'1.8'}}>Select a chapter from the sidebar to view your handwritten notes. All notes are for <strong style={{color:'rgba(250,255,216,0.65)'}}>JEE {classData.label}</strong>.</div>
             <div style={{display:'flex',gap:'12px',marginTop:'8px',flexWrap:'wrap',justifyContent:'center'}}>
               {classData.chapters.slice(0,4).map(ch=>(
-                <button key={ch.name} onClick={()=>setActiveChapter(ch)} style={{padding:'10px 18px',background:'#1e2d4d',border:`1px solid ${subject.color}33`,borderRadius:'8px',color:'#94a3b8',fontFamily:'DM Sans',fontSize:'0.82rem',cursor:'pointer'}}>{ch.name}</button>
+                <button key={ch.name} onClick={()=>setActiveChapter(ch)} style={{padding:'10px 18px',background:'#003050',border:`1px solid ${subject.color}33`,borderRadius:'8px',color:'rgba(250,255,216,0.65)',fontFamily:'DM Sans',fontSize:'0.82rem',cursor:'pointer'}}>{ch.name}</button>
               ))}
-              <button onClick={()=>setActiveChapter(classData.chapters[0])} style={{padding:'10px 18px',background:subject.color,border:'none',borderRadius:'8px',color:'#0f1729',fontFamily:'DM Sans',fontSize:'0.82rem',fontWeight:600,cursor:'pointer'}}>Start with Chapter 1 →</button>
+              <button onClick={()=>setActiveChapter(classData.chapters[0])} style={{padding:'10px 18px',background:'#226ce0',border:'none',borderRadius:'8px',color:'#faffd8',fontFamily:'DM Sans',fontSize:'0.82rem',fontWeight:600,cursor:'pointer'}}>Start with Chapter 1 →</button>
             </div>
           </div>
         )}
@@ -722,8 +730,14 @@ function NotesSection() {
 
 // ─── MAIN APP ────────────────────────────────────────────────────────────────
 export default function App() {
-  const [mode, setMode] = useState('notes');
-  const [selected, setSelected] = useState(allTopics[0]);
+  // ── Read ?calc=id from URL (for new-tab calculator links) ──
+  const urlCalcId = useMemo(() => {
+    const p = new URLSearchParams(window.location.search);
+    return p.get('calc') ? parseInt(p.get('calc')) : null;
+  }, []);
+
+  const [mode, setMode] = useState(urlCalcId ? 'calculator' : 'notes');
+  const [selected, setSelected] = useState(() => urlCalcId ? (allTopics.find(t => t.id === urlCalcId) || allTopics[0]) : allTopics[0]);
   const [search, setSearch] = useState('');
   const [openCats, setOpenCats] = useState(() => new Set(categories.map(c => c.name)));
 
@@ -734,6 +748,7 @@ export default function App() {
   const [showRegPopup, setShowRegPopup] = useState(false);
 
   const handleRegistered = (name) => { setUserName(name); setRegistered(true); setShowRegPopup(false); };
+  const handleLogout = () => { localStorage.removeItem('skillora_registered'); setRegistered(false); setUserName(''); setPage('landing'); setMode('notes'); };
 
   const filteredCats = useMemo(() => {
     if (!search.trim()) return categories;
@@ -744,27 +759,43 @@ export default function App() {
   const toggleCat = name => setOpenCats(p => { const n = new Set(p); n.has(name) ? n.delete(name) : n.add(name); return n; });
   const ActiveComp = selected.component;
 
-  // ── Show landing page if not registered ──
-  if (!registered && !showRegPopup) {
-    return <LandingPage onGetStarted={() => setShowRegPopup(true)} />;
+  // ── Routing: landing page on first visit ──
+  const [page, setPage] = useState(() => urlCalcId ? 'app' : (!!getStored() ? 'app' : 'landing'));
+
+  const goToCalculator = () => { window.open(window.location.pathname + '?calc=1', '_blank'); };
+  const goToNotes      = () => { if (registered) { setPage('app'); setMode('notes'); } else { setShowRegPopup(true); } };
+
+  if (page === 'landing') {
+    return (
+      <>
+        {showRegPopup && <RegistrationPopup onComplete={(name) => { handleRegistered(name); setPage('app'); setMode('notes'); }} />}
+        <LandingPage onGetStarted={() => setShowRegPopup(true)} onTryCalculator={goToCalculator} />
+      </>
+    );
   }
 
   return (
-    <div style={{display:'flex',height:'100vh',background:'#0f1729',fontFamily:'DM Sans',color:'#e2e8f0',overflow:'hidden',flexDirection:'column'}}>
+    <div style={{display:'flex',height:'100vh',background:'#002535',fontFamily:'DM Sans',color:'#faffd8',overflow:'hidden',flexDirection:'column'}}>
 
       {/* Registration popup on top of app */}
       {showRegPopup && <RegistrationPopup onComplete={handleRegistered} />}
 
       {/* ── Top Navigation Bar ── */}
-      <div style={{height:'52px',minHeight:'52px',background:'#0a0f1e',borderBottom:'1px solid #1e2d4d',display:'flex',alignItems:'center',padding:'0 24px',gap:'0',justifyContent:'space-between'}}>
-        <div style={{fontFamily:'Playfair Display',fontSize:'1.2rem',fontWeight:700,color:'#f59e0b'}}>Skillora</div>
-        <div style={{display:'flex',gap:'4px',background:'#0f1729',borderRadius:'10px',padding:'4px'}}>
+      <div style={{height:'52px',minHeight:'52px',background:'#001e2a',borderBottom:'1px solid #003050',display:'flex',alignItems:'center',padding:'0 24px',gap:'0',justifyContent:'space-between'}}>
+        <div style={{fontFamily:'Playfair Display',fontSize:'1.2rem',fontWeight:700,color:'#ecffb0'}}>Skillora</div>
+        <div style={{display:'flex',gap:'4px',background:'#002535',borderRadius:'10px',padding:'4px'}}>
           {[['calculator','🧮 Calculator'],['notes','📚 JEE Notes']].map(([m,label])=>(
-            <button key={m} onClick={()=>setMode(m)} style={{padding:'6px 20px',borderRadius:'7px',border:'none',cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.85rem',fontWeight:500,transition:'all 0.15s',background:mode===m?'#f59e0b':'transparent',color:mode===m?'#0f1729':'#64748b'}}>{label}</button>
+            <button key={m} onClick={()=>{ if(m==='notes' && !registered){ setShowRegPopup(true); } else { setMode(m); } }} style={{padding:'6px 20px',borderRadius:'7px',border:'none',cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.85rem',fontWeight:500,transition:'all 0.15s',background:mode===m?'#226ce0':'transparent',color:mode===m?'#faffd8':'rgba(250,255,216,0.45)'}}>{label}</button>
           ))}
         </div>
-        <div style={{fontSize:'0.8rem',color:'#64748b',fontFamily:'DM Sans'}}>
-          {userName ? <span>👋 <span style={{color:'#f59e0b',fontWeight:500}}>{userName.split(' ')[0]}</span></span> : <span style={{color:'#334155'}}>skillora.life</span>}
+        <div style={{fontSize:'0.8rem',color:'rgba(250,255,216,0.45)',fontFamily:'DM Sans'}}>
+          {userName
+            ? <span style={{display:'flex',alignItems:'center',gap:'10px'}}>
+                <span>👋 <span style={{color:'#ecffb0',fontWeight:500}}>{userName.split(' ')[0]}</span></span>
+                <button onClick={handleLogout} style={{fontSize:'0.72rem',color:'rgba(250,255,216,0.35)',background:'transparent',border:'1px solid rgba(250,255,216,0.12)',borderRadius:'6px',padding:'3px 10px',cursor:'pointer',fontFamily:'DM Sans',transition:'all 0.15s'}}>Logout</button>
+              </span>
+            : <span style={{color:'rgba(250,255,216,0.22)'}}>skillora.life</span>
+          }
         </div>
       </div>
 
@@ -772,41 +803,44 @@ export default function App() {
       <div style={{flex:1,display:'flex',overflow:'hidden'}}>
         {mode === 'notes' ? <NotesSection /> : (
           <>
-            <div style={{width:'280px',minWidth:'280px',background:'#0a0f1e',borderRight:'1px solid #1e2d4d',display:'flex',flexDirection:'column',overflow:'hidden'}}>
-              <div style={{padding:'12px 16px',borderBottom:'1px solid #1e2d4d'}}>
+            <div style={{width:'280px',minWidth:'280px',background:'#001e2a',borderRight:'1px solid #003050',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+              <div style={{padding:'12px 16px',borderBottom:'1px solid #003050'}}>
                 <div style={{position:'relative'}}>
-                  <span style={{position:'absolute',left:'10px',top:'50%',transform:'translateY(-50%)',color:'#475569',fontSize:'0.85rem'}}>🔍</span>
-                  <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search topics..." style={{width:'100%',background:'#0f1729',border:'1px solid #2d3f6b',borderRadius:'8px',padding:'8px 10px 8px 30px',color:'#e2e8f0',fontFamily:'DM Sans',fontSize:'0.85rem',outline:'none',boxSizing:'border-box'}}/>
+                  <span style={{position:'absolute',left:'10px',top:'50%',transform:'translateY(-50%)',color:'rgba(250,255,216,0.35)',fontSize:'0.85rem'}}>🔍</span>
+                  <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search topics..." style={{width:'100%',background:'#002535',border:'1px solid #226ce040',borderRadius:'8px',padding:'8px 10px 8px 30px',color:'#faffd8',fontFamily:'DM Sans',fontSize:'0.85rem',outline:'none',boxSizing:'border-box'}}/>
                 </div>
               </div>
               <div style={{flex:1,overflowY:'auto',padding:'8px 0'}}>
                 {filteredCats.map(cat=>(
                   <div key={cat.name}>
-                    <button onClick={()=>toggleCat(cat.name)} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 16px',background:'none',border:'none',cursor:'pointer',color:'#64748b',fontSize:'0.72rem',textTransform:'uppercase',letterSpacing:'0.1em',fontFamily:'DM Sans',fontWeight:600}}>
+                    <button onClick={()=>toggleCat(cat.name)} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 16px',background:'none',border:'none',cursor:'pointer',color:'rgba(250,255,216,0.45)',fontSize:'0.72rem',textTransform:'uppercase',letterSpacing:'0.1em',fontFamily:'DM Sans',fontWeight:600}}>
                       <span>{cat.icon} {cat.name}</span>
                       <span style={{fontSize:'0.7rem'}}>{openCats.has(cat.name)?'▾':'▸'}</span>
                     </button>
                     {openCats.has(cat.name)&&cat.topics.map(t=>(
-                      <button key={t.id} onClick={()=>setSelected(t)} style={{width:'100%',display:'flex',alignItems:'center',gap:'10px',padding:'8px 16px 8px 28px',background:selected.id===t.id?'#1e2d4d':'none',border:'none',cursor:'pointer',textAlign:'left',transition:'background 0.1s',borderLeft:selected.id===t.id?'3px solid #f59e0b':'3px solid transparent'}}>
+                      <button key={t.id} onClick={()=>window.open(`${window.location.pathname}?calc=${t.id}`,'_blank')} style={{width:'100%',display:'flex',alignItems:'center',gap:'10px',padding:'8px 16px 8px 28px',background:selected.id===t.id?'#003050':'none',border:'none',cursor:'pointer',textAlign:'left',transition:'background 0.1s',borderLeft:selected.id===t.id?'3px solid #ecffb0':'3px solid transparent'}}>
                         <div>
-                          <div style={{fontSize:'0.83rem',color:selected.id===t.id?'#f8fafc':'#94a3b8',fontWeight:selected.id===t.id?500:400}}>{t.name}</div>
-                          <div style={{fontSize:'0.7rem',color:'#475569'}}>{t.desc}</div>
+                          <div style={{fontSize:'0.83rem',color:selected.id===t.id?'#faffd8':'rgba(250,255,216,0.65)',fontWeight:selected.id===t.id?500:400}}>{t.name}</div>
+                          <div style={{fontSize:'0.7rem',color:'rgba(250,255,216,0.35)'}}>{t.desc}</div>
                         </div>
                       </button>
                     ))}
                   </div>
                 ))}
               </div>
-              <div style={{padding:'10px 16px',borderTop:'1px solid #1e2d4d',fontSize:'0.68rem',color:'#334155',textAlign:'center'}}>skillora.life</div>
+              <div style={{padding:'10px 16px',borderTop:'1px solid #003050',textAlign:'center'}}>
+                {!registered && <button onClick={()=>setShowRegPopup(true)} style={{fontSize:'0.72rem',color:'#ecffb0',background:'transparent',border:'none',cursor:'pointer',fontFamily:'DM Sans',padding:'4px 0'}}>📚 Sign up for free notes →</button>}
+                {registered && <div style={{fontSize:'0.68rem',color:'rgba(250,255,216,0.22)'}}>skillora.life</div>}
+              </div>
             </div>
             <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden'}}>
-              <div style={{padding:'20px 32px 16px',borderBottom:'1px solid #1e2d4d',background:'#0a0f1e'}}>
+              <div style={{padding:'20px 32px 16px',borderBottom:'1px solid #003050',background:'#001e2a'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-                  <span style={{background:'#f59e0b22',color:'#f59e0b',borderRadius:'6px',padding:'3px 8px',fontSize:'0.7rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.08em'}}>{selected.category}</span>
-                  <span style={{color:'#334155',fontSize:'0.8rem'}}>#{selected.id}</span>
+                  <span style={{background:'#ecffb022',color:'#ecffb0',borderRadius:'6px',padding:'3px 8px',fontSize:'0.7rem',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.08em'}}>{selected.category}</span>
+                  <span style={{color:'rgba(250,255,216,0.22)',fontSize:'0.8rem'}}>#{selected.id}</span>
                 </div>
-                <div style={{fontFamily:'Playfair Display',fontSize:'1.6rem',fontWeight:700,color:'#f8fafc',marginTop:'4px'}}>{selected.name}</div>
-                <div style={{color:'#64748b',fontSize:'0.85rem',marginTop:'2px'}}>{selected.desc}</div>
+                <div style={{fontFamily:'Playfair Display',fontSize:'1.6rem',fontWeight:700,color:'#faffd8',marginTop:'4px'}}>{selected.name}</div>
+                <div style={{color:'rgba(250,255,216,0.45)',fontSize:'0.85rem',marginTop:'2px'}}>{selected.desc}</div>
               </div>
               <div style={{flex:1,overflowY:'auto',padding:'28px 32px'}}>
                 <div style={{maxWidth:'640px'}}><ActiveComp key={selected.id}/></div>
@@ -818,3 +852,7 @@ export default function App() {
     </div>
   );
 }
+
+
+
+// Color palette only — see create_file output
