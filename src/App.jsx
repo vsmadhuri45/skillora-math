@@ -1,11 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // ─── Google Fonts ───────────────────────────────────────────────────────────
 const fontLink = document.createElement("link");
 fontLink.rel = "stylesheet";
 fontLink.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap";
 document.head.appendChild(fontLink);
+
+// ── Page title ──
+document.title = "Skillora";
+
+// ── Favicon ──
+const favicon = document.querySelector("link[rel*='icon']") || document.createElement("link");
+favicon.rel = "icon";
+favicon.type = "image/png";
+favicon.href = "data:image/png;base64,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";
+if (!document.querySelector("link[rel*='icon']")) document.head.appendChild(favicon);
 
 // ─── SUPABASE CONFIG ─────────────────────────────────────────────────────────
 const SUPABASE_URL  = 'https://arxdaujysbcujgqdadyw.supabase.co';
@@ -106,8 +116,49 @@ function RegistrationPopup({ onComplete }) {
 }
 
 // ─── LANDING PAGE ─────────────────────────────────────────────────────────────
+// ─── TYPEWRITER HOOK ─────────────────────────────────────────────────────────
+function useTypewriter(texts, typingSpeed = 80, deletingSpeed = 40, pauseMs = 1800) {
+  const [display, setDisplay] = useState(texts[0][0] || '');
+  const [textIdx, setTextIdx]  = useState(0);
+  const [charIdx, setCharIdx]  = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const [pausing,  setPausing]  = useState(false);
+
+  useEffect(() => {
+    const current = texts[textIdx];
+    if (pausing) {
+      const t = setTimeout(() => { setPausing(false); setDeleting(true); }, pauseMs);
+      return () => clearTimeout(t);
+    }
+    if (!deleting) {
+      if (charIdx < current.length) {
+        const t = setTimeout(() => { setDisplay(current.slice(0, charIdx + 1)); setCharIdx(c => c + 1); }, typingSpeed);
+        return () => clearTimeout(t);
+      } else {
+        setPausing(true);
+      }
+    } else {
+      if (charIdx > 0) {
+        const t = setTimeout(() => { setDisplay(current.slice(0, charIdx - 1)); setCharIdx(c => c - 1); }, deletingSpeed);
+        return () => clearTimeout(t);
+      } else {
+        setDeleting(false);
+        setTextIdx(i => (i + 1) % texts.length);
+      }
+    }
+  }, [charIdx, deleting, pausing, textIdx]);
+
+  return display;
+}
+
 function LandingPage({ onGetStarted, onTryCalculator }) {
   const [hoveredCard, setHoveredCard] = useState(null);
+  const typed = useTypewriter([
+    'Your complete toolkit for JEE',
+    'Smart notes. 58+ calculators.',
+    'Crack JEE — study smarter.',
+    'Free forever. Start today.',
+  ]);
 
   const features = [
     { icon: '🧮', title: '58+ Calculators', desc: 'From basic arithmetic to matrices, vectors, and complex numbers — every tool a JEE student needs.' },
@@ -130,11 +181,16 @@ function LandingPage({ onGetStarted, onTryCalculator }) {
   ];
 
   return (
-    <div style={{ minHeight:'100vh', background:'#00171f', fontFamily:'DM Sans', color:'#faffd8', overflowX:'hidden' }}>
+    <div style={{ minHeight:'100vh', background:'#00171f', fontFamily:'DM Sans', color:'#faffd8', overflowX:'hidden', position:'relative' }}>
+      {/* Full-page grid */}
+      <div style={{ position:'fixed', inset:0, backgroundImage:'linear-gradient(rgba(236,255,176,0.05) 1px, transparent 1px),linear-gradient(90deg,rgba(236,255,176,0.05) 1px,transparent 1px)', backgroundSize:'48px 48px', pointerEvents:'none', zIndex:0 }}/>
 
       {/* ── Navbar ── */}
       <nav style={{ position:'sticky', top:0, zIndex:100, background:'rgba(6,12,24,0.85)', backdropFilter:'blur(12px)', borderBottom:'1px solid #003050', padding:'0 40px', height:'60px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-        <div style={{ fontFamily:'Playfair Display', fontSize:'1.4rem', fontWeight:700, color:'#ecffb0' }}>Skillora</div>
+        <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
+          <img src="data:image/png;base64,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" alt="Skillora logo" style={{ width:'28px', height:'28px', objectFit:'contain' }}/>
+          <span style={{ fontFamily:'Playfair Display', fontSize:'1.4rem', fontWeight:700, color:'#ecffb0' }}>Skillora</span>
+        </div>
         <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
           <span style={{ fontSize:'0.82rem', color:'rgba(250,255,216,0.35)' }}>JEE Class XI &amp; XII</span>
           <button onClick={onTryCalculator} style={{ padding:'8px 18px', borderRadius:'8px', background:'transparent', border:'1px solid #226ce060', cursor:'pointer', fontFamily:'DM Sans', fontWeight:500, fontSize:'0.82rem', color:'rgba(250,255,216,0.65)', transition:'all 0.15s' }}>
@@ -148,16 +204,19 @@ function LandingPage({ onGetStarted, onTryCalculator }) {
 
       {/* ── Hero ── */}
       <section style={{ padding:'100px 40px 80px', maxWidth:'900px', margin:'0 auto', textAlign:'center', position:'relative' }}>
-        <div style={{ position:'absolute', top:'60px', left:'50%', transform:'translateX(-50%)', width:'600px', height:'300px', background:'radial-gradient(ellipse, #ecffb018 0%, transparent 70%)', pointerEvents:'none' }}/>
+
+        {/* Radial glow */}
+        <div style={{ position:'absolute', top:'60px', left:'50%', transform:'translateX(-50%)', width:'600px', height:'300px', background:'radial-gradient(ellipse, #226ce018 0%, transparent 70%)', pointerEvents:'none' }}/>
 
         <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', background:'#ecffb015', border:'1px solid #ecffb033', borderRadius:'100px', padding:'6px 16px', fontSize:'0.75rem', color:'#ecffb0', fontWeight:600, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:'28px' }}>
           ✦ Free JEE Prep Platform
         </div>
 
-        <h1 style={{ fontFamily:'Playfair Display', fontSize:'clamp(2.4rem, 5vw, 4rem)', fontWeight:700, color:'#faffd8', lineHeight:1.15, marginBottom:'24px', letterSpacing:'-0.02em' }}>
-          Your complete toolkit<br/>
-          <span style={{ color:'#ecffb0' }}>for JEE success</span>
+        <h1 style={{ fontFamily:'Playfair Display', fontSize:'clamp(2.4rem, 5vw, 4rem)', fontWeight:700, color:'#faffd8', lineHeight:1.15, marginBottom:'24px', letterSpacing:'-0.02em', minHeight:'5rem', position:'relative', zIndex:1 }}>
+          <span style={{ color:'#ecffb0' }}>{typed}</span>
+          <span style={{ display:'inline-block', width:'3px', height:'0.9em', background:'#ecffb0', marginLeft:'4px', verticalAlign:'text-bottom', animation:'blink 1s step-end infinite', borderRadius:'1px' }}/>
         </h1>
+        <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
 
         <p style={{ fontSize:'clamp(1rem, 2vw, 1.15rem)', color:'rgba(250,255,216,0.45)', lineHeight:1.8, maxWidth:'560px', margin:'0 auto 40px' }}>
           Handwritten notes for Class XI &amp; XII across Maths, Physics and Chemistry —
@@ -634,9 +693,33 @@ const allTopics = categories.flatMap(c=>c.topics.map(t=>({...t,category:c.name})
 
 // ─── NOTES DATA ──────────────────────────────────────────────────────────────
 const notesData = [
-  { subject:'Mathematics', icon:'📐', color:'#ecffb0', classes:[{ label:'Class XI', chapters:[{name:'Binomial Theorem',fileId:'1FUMQ94OH29HMWwBneNXpoDndyb2XVpTw'},{name:'Complex Numbers',fileId:'1GmFtPHrZv8fWRc7RJEhGlOST9ocuq-Mf'},{name:'Ellipse',fileId:'1FtMsYNxMQwj8hmON8P1a3F6vLYf3iB6J'},{name:'Hyperbola',fileId:'1FxEAK9Sg4YbPW6CdKlSwI6BSlopiEcyu'},{name:'Limits',fileId:'1GElWoJrfWiyCa_wO-wE17iyu2GeXmyuI'},{name:'Mathematical Induction',fileId:'1G5sNgiRmugmQybXQ3uNHcEmp4J918cu3'},{name:'Parabola',fileId:'1FkazuuTXZGy0yYBhk4Rlzcdz0-taBjoQ'},{name:'Permutations & Combinations',fileId:'1FbsacvYGFZBcl2m_LAqxbpsZfDOMUd0o'},{name:'Probability',fileId:'1GeirPiUp3y21il5AzLUTE7z3I3MD4ccp'},{name:'Relations & Functions',fileId:'1GBq_1DMlPF60f6Y3KX51KvUKVpDxllEn'},{name:'Sequence & Series',fileId:'1G7ZMAQSu_HKF7Kiq-E48i-3xh0TZ5ljT'},{name:'Sets',fileId:'1G9jqk2bt7ngNBtWvFVIol-uQ8M0subOT'},{name:'Solution of Triangles',fileId:'1FO8zFLobOUNyshyFqKwON-z5uAGxSSs9'},{name:'Statistics',fileId:'1GIPMEsj3KkkMcgtnsCx2FeFqJSO1x4n6'},{name:'Straight Line',fileId:'1FULq4Xx3RCmSFjuJA4kqrHt-ybvMGovT'},{name:'Trigonometry',fileId:'1FNodhR7gYhz1JymKFHDyeRhJ-3PIzUPV'}] },{ label:'Class XII', chapters:[{name:'3D Geometry',fileId:'1YJScKFMcfdArnKLfx6-B5pdgmRIvx0ZP'},{name:'Application Of Derivative',fileId:'1XkAQm1bKynO9mXgMNmpbL_KniZf0Rvtb'},{name:'Area Under Curve',fileId:'1Y-J-QcS_Wlwyt9W4czGIeoENBVrU7EvR'},{name:'Continuity',fileId:'1Xf6kdiCNGZjI_zsVXiMyjGsXwMVXGGVN'},{name:'Differential Equation',fileId:'1Y3A4365zkvse0a8Z1yQ0bUSoUKsgs1_O'},{name:'Definite Integration',fileId:'1XszHh3jUnUns_dqjJW6GR8-8pnfeyuA1'},{name:'Differentiability',fileId:'1XgrWopyGg6VvrVCWV7GXbkj_2nYhxr2Q'},{name:'Indefinite Integration',fileId:'1XrC8Y92I6kcCXGlYu3zhkIlif9I7z11U'},{name:'Inverse Trigonometric Functions',fileId:'1Wqj3SEF8vXf4nW8W1e3cP6EyxgFQGkgQ'},{name:'Limits',fileId:'1X4WheGGFVZusih9a8Yc31SWz0NwfqqSb'},{name:'Matrices and Determinants',fileId:'1WqZew0pGiIKAexfK7zGTkcBDXmEOcm37'},{name:'Probability',fileId:'1YWiG9AqBHP78p0aHk8CBUt4RQd8Mab_h'},{name:'Vectors',fileId:'1Y45UKqr5Fa70fmlp6XUx2_YD404e_2oE'}] }] },
+  { subject:'Mathematics', icon:'📐', color:'#ecffb0', 
+    classes:[
+      {label:'Class XI', 
+      chapters:[
+        {name:'Binomial Theorem',fileId:'1FUMQ94OH29HMWwBneNXpoDndyb2XVpTw'},
+        {name:'Complex Numbers',fileId:'1GmFtPHrZv8fWRc7RJEhGlOST9ocuq-Mf'},
+        {name:'Ellipse',fileId:'1FtMsYNxMQwj8hmON8P1a3F6vLYf3iB6J'},
+        {name:'Hyperbola',fileId:'1FxEAK9Sg4YbPW6CdKlSwI6BSlopiEcyu'},
+        {name:'Limits',fileId:'1GElWoJrfWiyCa_wO-wE17iyu2GeXmyuI'},
+        {name:'Mathematical Induction',fileId:'1G5sNgiRmugmQybXQ3uNHcEmp4J918cu3'},
+        {name:'Parabola',fileId:'1FkazuuTXZGy0yYBhk4Rlzcdz0-taBjoQ'},
+        {name:'Permutations & Combinations',fileId:'1FbsacvYGFZBcl2m_LAqxbpsZfDOMUd0o'},
+        {name:'Probability',fileId:'1GeirPiUp3y21il5AzLUTE7z3I3MD4ccp'},
+        {name:'Relations & Functions',fileId:'1GBq_1DMlPF60f6Y3KX51KvUKVpDxllEn'},
+        {name:'Sequence & Series',fileId:'1G7ZMAQSu_HKF7Kiq-E48i-3xh0TZ5ljT'},
+        {name:'Sets',fileId:'1G9jqk2bt7ngNBtWvFVIol-uQ8M0subOT'},
+        {name:'Solution of Triangles',fileId:'1FO8zFLobOUNyshyFqKwON-z5uAGxSSs9'},
+        {name:'Statistics',fileId:'1GIPMEsj3KkkMcgtnsCx2FeFqJSO1x4n6'},
+        {name:'Straight Line',fileId:'1FULq4Xx3RCmSFjuJA4kqrHt-ybvMGovT'},
+        {name:'Trigonometry',fileId:'1FNodhR7gYhz1JymKFHDyeRhJ-3PIzUPV'}
+      ] },
+      { label:'Class XII', 
+        chapters:[
+          {name:'3D Geometry',fileId:'1YJScKFMcfdArnKLfx6-B5pdgmRIvx0ZP'},
+          {name:'Application Of Derivative',fileId:'1XkAQm1bKynO9mXgMNmpbL_KniZf0Rvtb'},{name:'Area Under Curve',fileId:'1Y-J-QcS_Wlwyt9W4czGIeoENBVrU7EvR'},{name:'Continuity',fileId:'1Xf6kdiCNGZjI_zsVXiMyjGsXwMVXGGVN'},{name:'Differential Equation',fileId:'1Y3A4365zkvse0a8Z1yQ0bUSoUKsgs1_O'},{name:'Definite Integration',fileId:'1XszHh3jUnUns_dqjJW6GR8-8pnfeyuA1'},{name:'Differentiability',fileId:'1XgrWopyGg6VvrVCWV7GXbkj_2nYhxr2Q'},{name:'Indefinite Integration',fileId:'1XrC8Y92I6kcCXGlYu3zhkIlif9I7z11U'},{name:'Inverse Trigonometric Functions',fileId:'1Wqj3SEF8vXf4nW8W1e3cP6EyxgFQGkgQ'},{name:'Limits',fileId:'1X4WheGGFVZusih9a8Yc31SWz0NwfqqSb'},{name:'Matrices and Determinants',fileId:'1WqZew0pGiIKAexfK7zGTkcBDXmEOcm37'},{name:'Probability',fileId:'1YWiG9AqBHP78p0aHk8CBUt4RQd8Mab_h'},{name:'Vectors',fileId:'1Y45UKqr5Fa70fmlp6XUx2_YD404e_2oE'}] }] },
   { subject:'Physics', icon:'⚡', color:'#38bdf8', classes:[{ label:'Class XI', chapters:[{name:'Circular Motion',fileId:'1rgkhe9VLvTE9afrUUDGNKHPvfMZGtp38'},{name:'Centre of Mass - 1',fileId:'1w5o21k4Ke1npFzpTj2JWBIwW3KFvlw4j'},{name:'Centre of Mass - 2',fileId:'1CseKMB7lWiFleXNIR2M2Z9qZfjvNZi5b'},{name:'Fluid Mechanics',fileId:'1eOsD2--_6ZEFftjP7n1ydefXImDudLHL'},{name:'Friction',fileId:'1g-ynLN8uo6agu24yiIEzFJlFyVWotP8K'},{name:'KTG & Thermodynamics',fileId:'1Q15QZECU_mAxj2TJAKhA0pm4PJ-UqBMD'},{name:'Mathematical Tools',fileId:'1CdAsDXQpgD29lZAOOhLtJrOUFEV5XYgl'},{name:'Newtons Laws of Motion',fileId:'1tPHvhwELcb4BfPs_9gMa8GtQgA-AisXw'},{name:'Projectile Motion',fileId:'1nALfeb0vYGoJoSYPfTpEhPTsGOZ0dlro'},{name:'Properties of Matter',fileId:'1kesK-Fwy6Z2UYGDcHb5TzPAuB_JpSI4l'},{name:'Rigid Body Dynamics',fileId:'1CGJHA703jguqp5xyZQzWtFF13x6B-Vfl'},{name:'Rectilinear Motion',fileId:'1JZe3M5Ww0yPxYZ-K6K7UApopIxF-PU8m'},{name:'Relative Motion',fileId:'14veIQCGK5NXJGqXDYVBN3Op897g69arY'},{name:'Simple Harmonic Motion - 1',fileId:'1CQZGKeRYNpx0FNrllSJMifyej_sMgOyq'},{name:'Simple Harmonic Motion - 2',fileId:'1COlGGndK6raurAiAOb7K-GSSHz5dxDpN'},{name:'Sound Waves',fileId:'1xX_1G1Bl65hgcAk1NulydBEeQtNPrWTI'},{name:'String Waves',fileId:'1hB2dFm0KFqHU4Nkz_oCs-rZFhkZ_y02K'},{name:'Surface Tension',fileId:'1hIpeCCU56JDoX5bFwUVWPKwFM6LRqZHl'},{name:'Thermal Physics and Calorimetry',fileId:'1DzoDxN5zczhe4KX3UAIiuS98o0ooFnA_'},{name:'Thermodynamics',fileId:'1VFNGA81BkZRrixQvKdFBTWNsUtIk7xPk'},{name:'Viscosity',fileId:'1aoJd16VBydMXFppjqrgcOLoA84uHzKI2'},{name:'Work Power and Energy',fileId:'1zPHkHDRg9h2ue6MTAXm9ltd0YfNg6Vlj'}] },{ label:'Class XII', chapters:[{name:'Alternating Current',fileId:'1g0ab8Upv6IgNLjS-Eesx4icL32kYSSt_'},{name:'Capacitance',fileId:'1eQz5-yqqCjbMc2m70JS89kQUue4nPWCD'},{name:'Current Electricity',fileId:'1eNOiTAjamxQD3lAzTufE0ac6J9wKwfZk'},{name:'Electromagnetic Induction',fileId:'1gEK1w6puiidLHFM06luv0NIGtmaRh7GY'},{name:'Electromagnetic Wave',fileId:'1g1LaIyC_dcFS5GSZdrnAxPnnJxMcoMMG'},{name:'Geometrical Optics',fileId:'1e_TXMGgKycfer_PYcTfghaEnUDAze8eK'},{name:'Gravitation',fileId:'1eLMe_b2UC5FV-wZc3Il9Z6VHT0ja2Ug7'},{name:'Heat Transfer',fileId:'1eQsW5yIdOhYaKB47Gkm3vaQra0h7sYv4'},{name:'Magnetic Effects of Current',fileId:'1g9xws1Oqu9__pYfprbKRv60qUMtijvay'},{name:'Magnetism',fileId:'1gCpmGr_pBH9D9hnBj5VJESDsLIlqEKX6'},{name:'Modern Physics',fileId:'1fjb6FQ8NI9wtI9m4BYpb7CI1iNZtCNSk'},{name:'Nuclear Physics',fileId:'1fmGqSh2OL6VSXqkmK7vHz3416P3vhymQ'},{name:'Semiconductors',fileId:'1ftw-ha-NXzfXdaTILq8pWMyBO0UjcRCe'},{name:'Wave Optics',fileId:'1g7KUCqXE0EEOiqYPJ33wMvtgjkNt-hjZ'}] }] },
-  { subject:'Chemistry', icon:'🧪', color:'#34d399', classes:[{ label:'Class XI', chapters:[{name:'Atomic Structure',fileId:'1DguvxutFCTOrGZA58sq4zRvx2carUAmB'},{name:'Chemical Bonding',fileId:'1EanJrn4j0OGNZ9_upBj7CnO4R5RNf3Gk'},{name:'Chemical Equilibrium',fileId:'1H2Q64___9GXO0--raIBDnoeE1kAwR3LX'},{name:'Chemistry in Everyday Life',fileId:'1OA7qk7RBuj2_1eoECL90qwhJZH6wDTz9'},{name:'Gaseous State',fileId:'1Gn8we9acGgn4IJ93rbRH7toiM0ElYmR5'},{name:'GOC',fileId:'1Gq8WZL3ww9pV4dBEjyZ3bbO-law9RBcg'},{name:'Hydrocarbons',fileId:'1DjeUPNX3ZmkooHeas-Tn1AQlPnVb6bn1'},{name:'Hydrogen',fileId:'1GrRB2ojUhQ_PEwl_eMx0by74NwYRLJqW'},{name:'Ionic Equilibrium',fileId:'1H3ISfgiPWrU8mP_qgGIiLvCGsOTsvpVA'},{name:'p-block Elements',fileId:'1H9zKqO_b5jhGkezPAQYHSBEbWhQoe2vU'},{name:'Periodic Table',fileId:'1wSEyyUv6Rp0NbGW-uzZnNDGRy3YLCcal'},{name:'Redox Reactions',fileId:'1GnDxYZbqcRI91NR4BeDzkdYHpwCahqmY'},{name:'s-block Elements',fileId:'1H7s388cX5L5O7ddTmdOH1vf-o0HqsmHI'},{name:'Thermodynamics',fileId:'1H-XY874BTBaapfQMf1Mpo0HQB8f9YbNg'}] },{ label:'Class XII', chapters:[{name:'Alcohol, Phenol & Ether',fileId:'1W92n3ED266KwmcXRkaziZ2vJMu8-7nbJ'},{name:'Aldehyde & Ketone',fileId:'1W9JmUfZxuKr3FlmNj3B2PKRgB0OrbU5y'},{name:'Amines',fileId:'1WGRdXps6PIvKcRbbcnHqN4HRIFcvxB2h'},{name:'Carboxylic Acid & its Derivatives',fileId:'1WBmS0PaH60Rw7PVqMFSaZ55UNbgb41Wp'},{name:'Chemical Kinetics',fileId:'1W7i9bIAfTO3Nb-n_tL1ULrmSpZruyzfU'},{name:'Coodination Compounds',fileId:'1VhjJ8bEquZAXbjb_--gDYBv2puNeInOI'},{name:'Electrochemistry',fileId:'1V_rowiG5wdWS3T85Bx-D3hWNzhrj-aTy'},{name:'Haloalkenes & Haloarenes',fileId:'1VxwmYb5fQ_XsYLTVZhhEkfd9gIJ3UdJW'},{name:'Metallurgy',fileId:'1VG4X0BSD0RyBchQGxSCebO64hybMH0sS'},{name:'P-Block',fileId:'1W6JHPTWqI66e8POHL3GjklPElUQhs4yS'},{name:'Practical Organic Chemistry',fileId:'1WPjYPtxECPKhTEhtg8CAxE92YiN6LzLk'},{name:'Polymers',fileId:'1WjVpRo3XqKcDbJVo5baNjqWFwkhFGAu-'},{name:'Qualitative Analysis',fileId:'1YDmVUJ-FafdAHecQxRQhMn3MUTm6ATx4'},{name:'Solid State',fileId:'1VMHGGoI_EMBuK-fpN9AHYA5DpYA08viH'},{name:'Solutions - 1',fileId:'1VK4Hjz4XJeppUnWYOrkN1JWqTkxUQgvx'},{name:'Solutions - 2',fileId:'1VOOKhIxdUQqgZkG0M9f5C32WuMrMzzK0'},{name:'Transition Elements',fileId:'1VFh0yOz7vvgqxr3NPFyuVHIVAAGfi8IK'}] }] },
+  { subject:'Chemistry', icon:'🧪', color:'#34d399', classes:[{ label:'Class XI', chapters:[{name:'Some Basic Concepts of Chemistry',fileid:'1EGrp6nmgpEyc-5gU4dTuIe3bOFj0ybNU',name:'Atomic Structure',fileId:'1YMWA7m1ri9aplrSQO4KQBTSC7A8V2IuT'},{name:'Chemical Bonding',fileId:'1EanJrn4j0OGNZ9_upBj7CnO4R5RNf3Gk'},{name:'Chemical Equilibrium',fileId:'1H2Q64___9GXO0--raIBDnoeE1kAwR3LX'},{name:'Chemistry in Everyday Life',fileId:'1OA7qk7RBuj2_1eoECL90qwhJZH6wDTz9'},{name:'Gaseous State',fileId:'1Gn8we9acGgn4IJ93rbRH7toiM0ElYmR5'},{name:'GOC',fileId:'1Gq8WZL3ww9pV4dBEjyZ3bbO-law9RBcg'},{name:'Hydrocarbons',fileId:'1DjeUPNX3ZmkooHeas-Tn1AQlPnVb6bn1'},{name:'Hydrogen',fileId:'1ygptwFzcFDFzb5zidER2oUg4lyHSfU2O'},{name:'Ionic Equilibrium',fileId:'1H3ISfgiPWrU8mP_qgGIiLvCGsOTsvpVA'},{name:'p-block Elements',fileId:'1H9zKqO_b5jhGkezPAQYHSBEbWhQoe2vU'},{name:'Periodic Table',fileId:'1wSEyyUv6Rp0NbGW-uzZnNDGRy3YLCcal'},{name:'Redox Reactions',fileId:'1GnDxYZbqcRI91NR4BeDzkdYHpwCahqmY'},{name:'s-block Elements',fileId:'1_MFeRGoy1dhFkkO1FuUvbErDL4o07H_6'},{name:'Thermodynamics',fileId:'1H-XY874BTBaapfQMf1Mpo0HQB8f9YbNg'}] },{ label:'Class XII', chapters:[{name:'Alcohol, Phenol & Ether',fileId:'1W92n3ED266KwmcXRkaziZ2vJMu8-7nbJ'},{name:'Aldehyde & Ketone',fileId:'1W9JmUfZxuKr3FlmNj3B2PKRgB0OrbU5y'},{name:'Amines',fileId:'1WGRdXps6PIvKcRbbcnHqN4HRIFcvxB2h'},{name:'Carboxylic Acid & its Derivatives',fileId:'1WBmS0PaH60Rw7PVqMFSaZ55UNbgb41Wp'},{name:'Chemical Kinetics',fileId:'1W7i9bIAfTO3Nb-n_tL1ULrmSpZruyzfU'},{name:'Coodination Compounds',fileId:'1VhjJ8bEquZAXbjb_--gDYBv2puNeInOI'},{name:'Electrochemistry',fileId:'1V_rowiG5wdWS3T85Bx-D3hWNzhrj-aTy'},{name:'Haloalkenes & Haloarenes',fileId:'1VxwmYb5fQ_XsYLTVZhhEkfd9gIJ3UdJW'},{name:'Metallurgy',fileId:'1VG4X0BSD0RyBchQGxSCebO64hybMH0sS'},{name:'P-Block',fileId:'1W6JHPTWqI66e8POHL3GjklPElUQhs4yS'},{name:'Practical Organic Chemistry',fileId:'1WPjYPtxECPKhTEhtg8CAxE92YiN6LzLk'},{name:'Polymers',fileId:'1WjVpRo3XqKcDbJVo5baNjqWFwkhFGAu-'},{name:'Qualitative Analysis',fileId:'1YDmVUJ-FafdAHecQxRQhMn3MUTm6ATx4'},{name:'Solid State',fileId:'1VMHGGoI_EMBuK-fpN9AHYA5DpYA08viH'},{name:'Solutions - 1',fileId:'1VK4Hjz4XJeppUnWYOrkN1JWqTkxUQgvx'},{name:'Solutions - 2',fileId:'1VOOKhIxdUQqgZkG0M9f5C32WuMrMzzK0'},{name:'Transition Elements',fileId:'1VFh0yOz7vvgqxr3NPFyuVHIVAAGfi8IK'}] }] },
 ];
 
 // ─── NOTES COMPONENT ─────────────────────────────────────────────────────────
@@ -750,6 +833,19 @@ export default function App() {
   const handleRegistered = (name) => { setUserName(name); setRegistered(true); setShowRegPopup(false); };
   const handleLogout = () => { localStorage.removeItem('skillora_registered'); setRegistered(false); setUserName(''); setPage('landing'); setMode('notes'); };
 
+  // Push a history entry so the back button can dismiss the signup popup
+  const openSignup = () => {
+    history.pushState({ signup: true }, '');
+    setShowRegPopup(true);
+  };
+
+  // Listen for back button — if popup is open, just close it
+  useEffect(() => {
+    const onPop = () => { if (showRegPopup) setShowRegPopup(false); };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, [showRegPopup]);
+
   const filteredCats = useMemo(() => {
     if (!search.trim()) return categories;
     const q = search.toLowerCase();
@@ -763,13 +859,13 @@ export default function App() {
   const [page, setPage] = useState(() => urlCalcId ? 'app' : (!!getStored() ? 'app' : 'landing'));
 
   const goToCalculator = () => { window.open(window.location.pathname + '?calc=1', '_blank'); };
-  const goToNotes      = () => { if (registered) { setPage('app'); setMode('notes'); } else { setShowRegPopup(true); } };
+  const goToNotes      = () => { if (registered) { setPage('app'); setMode('notes'); } else { openSignup(); } };
 
   if (page === 'landing') {
     return (
       <>
         {showRegPopup && <RegistrationPopup onComplete={(name) => { handleRegistered(name); setPage('app'); setMode('notes'); }} />}
-        <LandingPage onGetStarted={() => setShowRegPopup(true)} onTryCalculator={goToCalculator} />
+        <LandingPage onGetStarted={openSignup} onTryCalculator={goToCalculator} />
       </>
     );
   }
@@ -782,10 +878,13 @@ export default function App() {
 
       {/* ── Top Navigation Bar ── */}
       <div style={{height:'52px',minHeight:'52px',background:'#001e2a',borderBottom:'1px solid #003050',display:'flex',alignItems:'center',padding:'0 24px',gap:'0',justifyContent:'space-between'}}>
-        <div style={{fontFamily:'Playfair Display',fontSize:'1.2rem',fontWeight:700,color:'#ecffb0'}}>Skillora</div>
+        <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+          <img src="data:image/png;base64,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" alt="Skillora logo" style={{width:'26px',height:'26px',objectFit:'contain'}}/>
+          <span style={{fontFamily:'Playfair Display',fontSize:'1.2rem',fontWeight:700,color:'#ecffb0'}}>Skillora</span>
+        </div>
         <div style={{display:'flex',gap:'4px',background:'#002535',borderRadius:'10px',padding:'4px'}}>
           {[['calculator','🧮 Calculator'],['notes','📚 JEE Notes']].map(([m,label])=>(
-            <button key={m} onClick={()=>{ if(m==='notes' && !registered){ setShowRegPopup(true); } else { setMode(m); } }} style={{padding:'6px 20px',borderRadius:'7px',border:'none',cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.85rem',fontWeight:500,transition:'all 0.15s',background:mode===m?'#226ce0':'transparent',color:mode===m?'#faffd8':'rgba(250,255,216,0.45)'}}>{label}</button>
+            <button key={m} onClick={()=>{ if(m==='notes' && !registered){ openSignup(); } else { setMode(m); } }} style={{padding:'6px 20px',borderRadius:'7px',border:'none',cursor:'pointer',fontFamily:'DM Sans',fontSize:'0.85rem',fontWeight:500,transition:'all 0.15s',background:mode===m?'#226ce0':'transparent',color:mode===m?'#faffd8':'rgba(250,255,216,0.45)'}}>{label}</button>
           ))}
         </div>
         <div style={{fontSize:'0.8rem',color:'rgba(250,255,216,0.45)',fontFamily:'DM Sans'}}>
@@ -829,7 +928,7 @@ export default function App() {
                 ))}
               </div>
               <div style={{padding:'10px 16px',borderTop:'1px solid #003050',textAlign:'center'}}>
-                {!registered && <button onClick={()=>setShowRegPopup(true)} style={{fontSize:'0.72rem',color:'#ecffb0',background:'transparent',border:'none',cursor:'pointer',fontFamily:'DM Sans',padding:'4px 0'}}>📚 Sign up for free notes →</button>}
+                {!registered && <button onClick={openSignup} style={{fontSize:'0.72rem',color:'#ecffb0',background:'transparent',border:'none',cursor:'pointer',fontFamily:'DM Sans',padding:'4px 0'}}>📚 Sign up for free notes →</button>}
                 {registered && <div style={{fontSize:'0.68rem',color:'rgba(250,255,216,0.22)'}}>skillora.life</div>}
               </div>
             </div>
@@ -852,7 +951,3 @@ export default function App() {
     </div>
   );
 }
-
-
-
-// Color palette only — see create_file output
